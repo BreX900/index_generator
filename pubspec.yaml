@@ -1,7 +1,9 @@
 name: index_generator
 description: Automatically generate index / barrel files with all the export needed for your library.
 version: 0.0.1
-homepage: https://www.example.com
+homepage: https://github.com/BreX900/index_generator
+
+# flutter pub publish --dry-run
 
 environment:
   sdk: '>=2.7.0 <3.0.0'

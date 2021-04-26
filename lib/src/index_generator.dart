@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:index_generator/src/_entities.dart';
-import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 
 bool isTestingMode = false;
@@ -13,25 +12,25 @@ class IndexGenerator {
   final File indexFile;
 
   IndexGenerator._({
-    @required this.config,
-    @required this.folder,
-    @required this.indexDirectory,
-    @required this.indexFile,
+    required this.config,
+    required this.folder,
+    required this.indexDirectory,
+    required this.indexFile,
   });
 
   static String resolveIndexName(Config config, Folder folder) {
     if (folder.indexName != null) {
-      return folder.indexName;
+      return folder.indexName!;
     } else if (context.basename(folder.path) == 'lib') {
       return config.name;
     } else if (config.indexName != null) {
-      return config.indexName;
+      return config.indexName!;
     } else {
       return context.basename(folder.path);
     }
   }
 
-  factory IndexGenerator.from({@required Config config, @required Folder folder}) {
+  factory IndexGenerator.from({required Config config, required Folder folder}) {
     final indexPath = context.join(folder.path, '${resolveIndexName(config, folder)}.dart');
     return IndexGenerator._(
       config: config,

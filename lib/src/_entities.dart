@@ -1,20 +1,19 @@
-import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
 
 List<String> getListString(dynamic data, String name) {
-  return (data[name] as YamlList)?.cast<String>()?.toList() ?? const <String>[];
+  return (data[name] as YamlList?)?.cast<String>().toList() ?? const <String>[];
 }
 
 class Config {
   final String name;
 
-  final String indexName;
+  final String? indexName;
   final bool canUseLibrary;
   final List<Filter> filters;
   final List<Folder> folders;
 
   const Config({
-    @required this.name,
+    required this.name,
     this.indexName,
     this.canUseLibrary = true,
     this.filters = const <Filter>[],
@@ -45,23 +44,23 @@ class Config {
 
 class Folder {
   final String path;
-  final String indexName;
-  final bool canUseLibrary;
-  final String library;
+  final String? indexName;
+  final bool? canUseLibrary;
+  final String? library;
   final List<Filter> filters;
 
   const Folder({
-    @required this.path,
+    required this.path,
     this.indexName,
     this.canUseLibrary,
     this.library,
     this.filters = const <Filter>[],
-  }) : assert(path != null, 'The folder "path" required!');
+  });
 
   factory Folder.from(YamlMap data) {
     final library = data['library'];
-    bool canUseLibrary;
-    String libraryName;
+    bool? canUseLibrary;
+    String? libraryName;
     if (library is String) {
       canUseLibrary = true;
       libraryName = library;
@@ -77,7 +76,7 @@ class Folder {
     );
   }
 
-  static List<Folder> listFrom(YamlList data) {
+  static List<Folder> listFrom(YamlList? data) {
     return (data ?? YamlList()).map((element) {
       return Folder.from(element);
     }).toList();
@@ -110,7 +109,7 @@ abstract class Filter {
     throw 'Not support filter, you can use only "black" or "white"';
   }
 
-  static List<Filter> listFrom(YamlList data) {
+  static List<Filter> listFrom(YamlList? data) {
     return (data ?? YamlList()).map((element) {
       return Filter.from(element);
     }).toList();

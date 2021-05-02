@@ -74,6 +74,8 @@ class IndexGenerator {
     final lines = stringify(files);
     if (folder.canUseLibrary ?? config.canUseLibrary) {
       return [
+        '// GENERATED CODE - DO NOT MODIFY BY HAND',
+        '',
         'library ${folder.library ?? context.basename(folder.path)};',
         '',
         ...lines,

@@ -7,57 +7,59 @@ List<String> getListString(dynamic data, String name) {
 class Config {
   final String name;
 
-  final String? indexName;
+  final String? defaultName;
   final bool canUseLibrary;
   final List<Filter> filters;
-  final List<Folder> folders;
+  final List<Index> indexes;
 
   const Config({
     required this.name,
-    this.indexName,
+    this.defaultName,
     this.canUseLibrary = true,
     this.filters = const <Filter>[],
-    this.folders = const <Folder>[],
+    this.indexes = const <Index>[],
   });
 
   factory Config.from(dynamic yamlFile) {
     final data = yamlFile['index_generator'];
     return Config(
       name: yamlFile['name'],
-      indexName: data['index_name'],
+      defaultName: data['default_name'],
       canUseLibrary: data['library'] ?? true,
       filters: Filter.listFrom(data['filters']),
-      folders: Folder.listFrom(data['folders']),
+      indexes: Index.listFrom(data['indexes']),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      if (indexName != null) 'indexName': indexName,
+      if (defaultName != null) 'index_name': defaultName,
       'canUseLibrary': canUseLibrary,
-      if (filters.isNotEmpty) 'filters': filters,
-      if (folders.isNotEmpty) 'folders': folders.map((e) => e.toMap()).toList(),
+      'filters': filters,
+      'indexes': indexes.map((e) => e.toMap()).toList(),
     };
   }
 }
 
-class Folder {
+class Index {
+  final String? name;
   final String path;
-  final String? indexName;
+  final List<String> folders;
   final bool? canUseLibrary;
   final String? library;
   final List<Filter> filters;
 
-  const Folder({
+  const Index({
+    this.name,
     required this.path,
-    this.indexName,
+    this.folders = const <String>[],
     this.canUseLibrary,
     this.library,
     this.filters = const <Filter>[],
   });
 
-  factory Folder.from(YamlMap data) {
+  factory Index.from(YamlMap data) {
     final library = data['library'];
     bool? canUseLibrary;
     String? libraryName;
@@ -67,25 +69,30 @@ class Folder {
     } else if (library is bool) {
       canUseLibrary = library;
     }
-    return Folder(
-      path: data['path'],
-      indexName: data['index_name'],
+    final destination = data['path'] as String?;
+    if (destination == null) throw 'Path is Required';
+    final exportFolders = getListString(data, 'export');
+    return Index(
+      name: data['name'] as String?,
+      path: destination,
+      folders: exportFolders.isEmpty ? [destination] : exportFolders,
       filters: Filter.listFrom(data['filters']),
       canUseLibrary: canUseLibrary,
       library: libraryName,
     );
   }
 
-  static List<Folder> listFrom(YamlList? data) {
+  static List<Index> listFrom(YamlList? data) {
     return (data ?? YamlList()).map((element) {
-      return Folder.from(element);
+      return Index.from(element);
     }).toList();
   }
 
   Map<String, dynamic> toMap() {
     return {
+      if (name != null) 'indexName': name,
       'path': path,
-      if (indexName != null) 'indexName': indexName,
+      'directories': folders,
       if (filters.isNotEmpty) 'filters': filters,
       if (canUseLibrary != null) 'canUseLibrary': canUseLibrary,
       if (library != null) 'library': library,

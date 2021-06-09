@@ -1,3 +1,10 @@
+## 2.0.0
+- Now you can define export folders (use `export` key) 
+### Breaking changes:
+- Renamed `folders` key to `indexes` in yaml file
+- Renamed `index_name` key to `default_name`  in yaml file
+- Renamed `index_name` key in `indexes` to `name`  in yaml file
+
 ## 1.0.1
 - Add warning line in index
 

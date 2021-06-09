@@ -1,6 +1,6 @@
 name: index_generator
 description: Automatically generate index / barrel files with all the export needed for your library.
-version: 1.0.1
+version: 2.0.0
 homepage: https://github.com/BreX900/index_generator
 
 # flutter pub publish --dry-run
@@ -14,15 +14,21 @@ dependencies:
 
 dev_dependencies:
   pedantic: ^1.11.0
-  test: ^1.17.2
+  test:
 
 index_generator:
   filters:
     - black: (^\_.*$)|(.*\/_.*)
     - black: .*.g.dart$
-  folders:
+  indexes:
+    # Default index and library name
     - path: example
-      library: false
-    - path: lib
-      index_name: main
-      library: index_generator
+    # Custom index and library name
+    - path: example
+      name: custom_index_name
+      library: custom_library_name
+    # Custom index and library name
+    - path: example
+      name: export_folders
+      export:
+        - example/src

@@ -7,9 +7,8 @@ void main() {
     test('First Test', () {
       final generator = IndexGenerator.from(
         config: Config(name: 'index_generator'),
-        folder: Folder(path: 'lib'),
+        folder: Index(path: 'lib'),
       );
-
     });
   });
 }

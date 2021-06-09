@@ -1,48 +1,50 @@
 import 'dart:io';
 
 import 'package:index_generator/src/_entities.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 
 bool isTestingMode = false;
 
 class IndexGenerator {
   final Config config;
-  final Folder folder;
-  final Directory indexDirectory;
+  final Index folder;
   final File indexFile;
+  final List<Directory> directories;
 
   IndexGenerator._({
     required this.config,
     required this.folder,
-    required this.indexDirectory,
+    required this.directories,
     required this.indexFile,
   });
 
-  static String resolveIndexName(Config config, Folder folder) {
-    if (folder.indexName != null) {
-      return folder.indexName!;
-    } else if (context.basename(folder.path) == 'lib') {
+  static String resolveIndexName(Config config, Index folder) {
+    if (folder.name != null) {
+      return folder.name!;
+    } else if (path.basename(folder.path) == 'lib') {
       return config.name;
-    } else if (config.indexName != null) {
-      return config.indexName!;
+    } else if (config.defaultName != null) {
+      return config.defaultName!;
     } else {
-      return context.basename(folder.path);
+      return path.basename(folder.path);
     }
   }
 
-  factory IndexGenerator.from({required Config config, required Folder folder}) {
-    final indexPath = context.join(folder.path, '${resolveIndexName(config, folder)}.dart');
+  factory IndexGenerator.from({required Config config, required Index folder}) {
+    final indexPath = path.join(folder.path, '${resolveIndexName(config, folder)}.dart');
     return IndexGenerator._(
       config: config,
       folder: folder,
-      indexDirectory: Directory(folder.path),
+      directories: folder.folders.map((dir) {
+        return Directory(dir.replaceAll('/', path.separator));
+      }).toList(),
       indexFile: File(indexPath),
     );
   }
 
   /// Find dart files without index file
   Iterable<FileSystemEntity> findDartFiles() {
-    final files = indexDirectory.listSync(recursive: true);
+    final files = directories.expand((dir) => dir.listSync(recursive: true));
     return files.where((file) {
       return file.path.endsWith('.dart') && file.path != indexFile.path;
     });
@@ -54,15 +56,19 @@ class IndexGenerator {
     final blackFilters = allFilters.whereType<BlackFilter>();
     final whiteFilters = allFilters.whereType<WhiteFilter>();
     return files.where((file) {
-      final path = file.path.replaceAll(context.separator, '/');
-      return blackFilters.every((f) => f.accept(path)) || whiteFilters.any((f) => f.accept(path));
+      final filePath = file.path.replaceAll(path.separator, '/');
+      return blackFilters.every((f) => f.accept(filePath)) ||
+          whiteFilters.any((f) => f.accept(filePath));
     });
   }
 
   /// Convert dart [files] in index content lines
   Iterable<String> stringify(Iterable<FileSystemEntity> files) {
     return files.map((file) {
-      return "export '${file.path.replaceAll('${indexDirectory.path}${context.separator}', '').replaceAll('\\', '/')}';";
+      final indexPath = indexFile.path;
+      final filePath = file.path;
+      final importPath = filePath.replaceFirst(path.dirname(indexPath), '');
+      return "export '${importPath.replaceFirst(path.separator, '').replaceAll('\\', '/')}';";
     });
   }
 
@@ -72,17 +78,15 @@ class IndexGenerator {
     final files = applyFilters(allFiles).toList();
     files.sort((p, c) => p.path.compareTo(c.path));
     final lines = stringify(files);
-    if (folder.canUseLibrary ?? config.canUseLibrary) {
-      return [
-        '// GENERATED CODE - DO NOT MODIFY BY HAND',
+    return [
+      '// GENERATED CODE - DO NOT MODIFY BY HAND',
+      '',
+      if (folder.canUseLibrary ?? config.canUseLibrary) ...[
+        'library ${folder.library ?? path.basename(folder.path)};',
         '',
-        'library ${folder.library ?? context.basename(folder.path)};',
-        '',
-        ...lines,
-      ];
-    } else {
-      return lines;
-    }
+      ],
+      ...lines,
+    ];
   }
 
   /// Create a index file content

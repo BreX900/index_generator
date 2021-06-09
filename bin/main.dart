@@ -14,7 +14,7 @@ void main() {
   print('Current Configuration:');
   print(JsonEncoder.withIndent(' ', (o) => '$o').convert(config.toMap()));
 
-  final generators = config.folders.map((folder) {
+  final generators = config.indexes.map((folder) {
     return IndexGenerator.from(config: config, folder: folder);
   }).toList();
 

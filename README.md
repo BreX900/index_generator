@@ -12,7 +12,7 @@ index_generator:
   filters:
     - black: .*.g.dart$
   # Define the paths of the folders in which to generate the index files
-  folders:
+  indexes:
     - path: lib
 ```
 
@@ -25,15 +25,18 @@ index_generator:
 ```yaml
 index_generator:
   # You can define the default name of the index file
-  index_name: barrel
-  # You can define general filters for all folders
+  default_name: barrel
+  # You can define general filters for all indexes
   filters:
     - black: .*\.g$
-  folders:
+  indexes:
     - path: lib
-      # You can define specific filters for this folder
+      # You can define specific filters for this index
       filters:
         - white: .*\include.g$
+      # You can define specific export folders paths
+      export:
+        - lib/src
     - path: generator
       # You can define the name of the index file
       index_name: main
@@ -41,10 +44,11 @@ index_generator:
       library: index_generator
 ```
 
-- **index_name**: Prioritize ownership in folders, otherwise it will use the one defined in the generator.
+- **name**: Prioritize ownership in folders, otherwise it will use the one defined in the generator with `default_name` key.
   If it is missing, if the folder is `lib` it will use the package name otherwise the folder name
 - **filters**: You can define `black` filters that remove files from the index but `white` filters will add them back
   You can use [RegExp] expressions
+- **export**: You can define specific export folders paths
 
 ## Features and bugs
 

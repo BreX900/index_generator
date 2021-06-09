@@ -75,7 +75,7 @@ class Index {
     return Index(
       name: data['name'] as String?,
       path: destination,
-      folders: exportFolders.isEmpty ? [destination] : exportFolders,
+      folders: exportFolders.isEmpty ? [''] : exportFolders,
       filters: Filter.listFrom(data['filters']),
       canUseLibrary: canUseLibrary,
       library: libraryName,

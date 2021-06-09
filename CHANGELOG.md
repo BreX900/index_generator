@@ -1,5 +1,8 @@
+## 2.0.1
+- Now the path of the export folders is relative to the path of the index
+
 ## 2.0.0
-- Now you can define export folders (use `export` key) 
+- Now you can define export folders (use `export` key)
 ### Breaking changes:
 - Renamed `folders` key to `indexes` in yaml file
 - Renamed `index_name` key to `default_name`  in yaml file

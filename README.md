@@ -48,7 +48,8 @@ index_generator:
   If it is missing, if the folder is `lib` it will use the package name otherwise the folder name
 - **filters**: You can define `black` filters that remove files from the index but `white` filters will add them back
   You can use [RegExp] expressions
-- **export**: You can define specific export folders paths
+- **export**: You can define specific export folders paths.
+  The path of the folders is relative to the path of the index
 
 ## Features and bugs
 

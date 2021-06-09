@@ -9,12 +9,12 @@ class IndexGenerator {
   final Config config;
   final Index folder;
   final File indexFile;
-  final List<Directory> directories;
+  final List<Directory> folders;
 
   IndexGenerator._({
     required this.config,
     required this.folder,
-    required this.directories,
+    required this.folders,
     required this.indexFile,
   });
 
@@ -35,8 +35,8 @@ class IndexGenerator {
     return IndexGenerator._(
       config: config,
       folder: folder,
-      directories: folder.folders.map((dir) {
-        return Directory(dir.replaceAll('/', path.separator));
+      folders: folder.folders.map((dir) {
+        return Directory(path.join(folder.path, dir.replaceAll('/', path.separator)));
       }).toList(),
       indexFile: File(indexPath),
     );
@@ -44,7 +44,7 @@ class IndexGenerator {
 
   /// Find dart files without index file
   Iterable<FileSystemEntity> findDartFiles() {
-    final files = directories.expand((dir) => dir.listSync(recursive: true));
+    final files = folders.expand((dir) => dir.listSync(recursive: true));
     return files.where((file) {
       return file.path.endsWith('.dart') && file.path != indexFile.path;
     });

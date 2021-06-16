@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-library example;
+library export_folders;
 
 export 'src/pick.dart';

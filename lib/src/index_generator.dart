@@ -82,7 +82,7 @@ class IndexGenerator {
       '// GENERATED CODE - DO NOT MODIFY BY HAND',
       '',
       if (folder.canUseLibrary ?? config.canUseLibrary) ...[
-        'library ${folder.library ?? path.basename(folder.path)};',
+        'library ${folder.library ?? folder.name ?? path.basename(folder.path)};',
         '',
       ],
       ...lines,

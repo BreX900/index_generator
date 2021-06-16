@@ -1,3 +1,6 @@
+## 2.0.2
+- Fixed library name when it is missing in pubspec but index name is present
+
 ## 2.0.1
 - Now the path of the export folders is relative to the path of the index
 

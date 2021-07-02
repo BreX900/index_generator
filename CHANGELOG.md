@@ -1,3 +1,6 @@
+## 2.0.3
+- Added an extra line at the end of the index file
+
 ## 2.0.2
 - Fixed library name when it is missing in pubspec but index name is present
 

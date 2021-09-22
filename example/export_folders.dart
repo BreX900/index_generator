@@ -2,4 +2,6 @@
 
 library export_folders;
 
+export 'package:args/args.dart';
+
 export 'src/pick.dart';

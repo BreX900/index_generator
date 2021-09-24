@@ -1,0 +1,18 @@
+index_generator:
+  filters:
+    - black: (^\_.*$)|(.*\/_.*)
+    - black: .*.g.dart$
+  indexes:
+    # Default index and library name
+    - path: example
+    # Custom index and library name
+    - path: example
+      name: custom_index_name
+      library: custom_library_name
+    # Custom index and library name
+    - path: example
+      name: export_folders
+      folders:
+        - src
+      exports:
+        - args/args

@@ -1,3 +1,12 @@
+## 2.1.0
+- Improved handling of yaml file parsing errors using `json_serializable`
+- Added the ability to export other libraries, see the field `exports`
+- Fix #1 : Now LF is always used for the newline character. You can replace the newline character in the yaml using the `line_break` field
+#### BREAKING CHANGES
+- Now you have to start the index generator by writing only `index_generator` without`:main`
+- Removed the ability to create an index file without the library name
+- In the yaml file the `export` field has changed to `folders`
+
 ## 2.0.3
 - Added an extra line at the end of the index file
 

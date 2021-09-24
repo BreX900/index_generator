@@ -3,11 +3,10 @@ Automatically generate index / barrel files with all the exports needed for your
 
 ## Usage
 
-1. Add in your `pubspec.yaml`:
+1. Activate: `dart pub global activate index_generator`
+
+2. Create `index_generator.yaml` file or add in your `pubspec.yaml` file:
 ```yaml
-dev_dependicies:
-  index_generator: ^0.0.0
-# ...
 index_generator:
   filters:
     - black: .*.g.dart$
@@ -16,9 +15,9 @@ index_generator:
     - path: lib
 ```
 
-2. You can generate index files with one of the following two commands:
-  - `flutter pub run index_generator:main`
-  - `dart run index_generator:main`
+3. You can generate index files with one of the following two commands:
+  - `flutter pub global run index_generator`
+  - `dart pub global run index_generator`
 
 ## Advance Usage
 
@@ -35,11 +34,14 @@ index_generator:
       filters:
         - white: .*\include.g$
       # You can define specific export folders paths
-      export:
+      folders:
         - lib/src
+      # You can define specific export dart packages in index file.
+      exports:
+        - args/args
     - path: generator
       # You can define the name of the index file
-      index_name: main
+      name: main
       # You can define the name of the library to use within the index
       library: index_generator
 ```
@@ -48,11 +50,10 @@ index_generator:
   If it is missing, if the folder is `lib` it will use the package name otherwise the folder name
 - **filters**: You can define `black` filters that remove files from the index but `white` filters will add them back
   You can use [RegExp] expressions
-- **export**: You can define specific export folders paths.
-  The path of the folders is relative to the path of the index
+- **folders**: You can define specific export folders paths.
+  The path of the folders is relative to the path of the index.
+- **exports**: You can define specific export dart packages in index file.
 
 ## Features and bugs
 
-Please file feature requests and bugs at the [issue tracker][tracker].
-
-[tracker]: http://example.com/issues/replaceme
+Please file feature requests and bugs at the [issue tracker][https://github.com/BreX900/index_generator/issues].

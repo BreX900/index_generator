@@ -1,58 +1,72 @@
 import 'dart:io';
 
-import 'package:index_generator/src/_entities.dart';
+import 'package:index_generator/src/settings/filters.dart';
+import 'package:index_generator/src/settings/index_settings.dart';
+import 'package:index_generator/src/settings/package_settings.dart';
 import 'package:path/path.dart' as path;
 
-bool isTestingMode = false;
-
 class IndexGenerator {
-  final Config config;
-  final Index folder;
+  final ProjectSettings project;
+  final PackageSettings package;
+  final IndexSettings index;
   final File indexFile;
   final List<Directory> folders;
 
   IndexGenerator._({
-    required this.config,
-    required this.folder,
+    required this.project,
+    required this.package,
+    required this.index,
     required this.folders,
     required this.indexFile,
   });
 
-  static String resolveIndexName(Config config, Index folder) {
-    if (folder.name != null) {
-      return folder.name!;
-    } else if (path.basename(folder.path) == 'lib') {
-      return config.name;
-    } else if (config.defaultName != null) {
-      return config.defaultName!;
+  static String _resolveIndexName(
+    ProjectSettings project,
+    PackageSettings package,
+    IndexSettings index,
+  ) {
+    if (index.name != null) {
+      return index.name!;
+    } else if (path.basename(index.path) == 'lib') {
+      return project.name;
+    } else if (package.defaultName != null) {
+      return package.defaultName!;
     } else {
-      return path.basename(folder.path);
+      return path.basename(index.path);
     }
   }
 
-  factory IndexGenerator.from({required Config config, required Index folder}) {
-    final indexPath = path.join(folder.path, '${resolveIndexName(config, folder)}.dart');
+  factory IndexGenerator.from(
+    ProjectSettings project,
+    PackageSettings package,
+    IndexSettings index,
+  ) {
+    final indexPath = path.join(index.path, '${_resolveIndexName(project, package, index)}.dart');
     return IndexGenerator._(
-      config: config,
-      folder: folder,
-      folders: folder.folders.map((dir) {
-        return Directory(path.join(folder.path, dir.replaceAll('/', path.separator)));
+      project: project,
+      package: package,
+      index: index,
+      folders: index.folders.map((dir) {
+        return Directory(path.join(index.path, dir.replaceAll('/', path.separator)));
       }).toList(),
       indexFile: File(indexPath),
     );
   }
 
   /// Find dart files without index file
-  Iterable<FileSystemEntity> findDartFiles() {
-    final files = folders.expand((dir) => dir.listSync(recursive: true));
-    return files.where((file) {
+  Iterable<File> findFiles() {
+    return folders.expand((dir) {
+      return dir.listSync(recursive: true);
+    }).where((file) {
       return file.path.endsWith('.dart') && file.path != indexFile.path;
+    }).map((e) {
+      return File(e.path);
     });
   }
 
-  /// Filter [files] with [config] and [folder] filters
-  Iterable<FileSystemEntity> applyFilters(Iterable<FileSystemEntity> files) {
-    final allFilters = [...config.filters, ...folder.filters];
+  /// Filter [files] with [config] and [index] filters
+  Iterable<File> filterFiles(Iterable<File> files) {
+    final allFilters = [...package.filters, ...index.filters];
     final blackFilters = allFilters.whereType<BlackFilter>();
     final whiteFilters = allFilters.whereType<WhiteFilter>();
     return files.where((file) {
@@ -63,7 +77,7 @@ class IndexGenerator {
   }
 
   /// Convert dart [files] in index content lines
-  Iterable<String> stringify(Iterable<FileSystemEntity> files) {
+  Iterable<String> fileToExport(Iterable<FileSystemEntity> files) {
     return files.map((file) {
       final indexPath = indexFile.path;
       final filePath = file.path;
@@ -72,26 +86,31 @@ class IndexGenerator {
     });
   }
 
+  Iterable<String> packageToExport(Iterable<String> exports) {
+    return exports.map((export) => "export 'package:$export.dart';");
+  }
+
   /// Generate a index file content
   Iterable<String> generate() {
-    final allFiles = findDartFiles();
-    final files = applyFilters(allFiles).toList();
-    files.sort((p, c) => p.path.compareTo(c.path));
-    final lines = stringify(files);
+    final externalExports = packageToExport(index.exports).toList()..sort();
+    final internalExports = fileToExport(filterFiles(findFiles())).toList()..sort();
+
     return [
       '// GENERATED CODE - DO NOT MODIFY BY HAND',
       '',
-      if (folder.canUseLibrary ?? config.canUseLibrary) ...[
-        'library ${folder.library ?? folder.name ?? path.basename(folder.path)};',
+      'library ${index.library ?? index.name ?? path.basename(index.path)};',
+      '',
+      if (externalExports.isNotEmpty) ...[
+        ...externalExports,
         '',
       ],
-      ...lines,
+      ...internalExports,
       '',
     ];
   }
 
   /// Create a index file content
-  void create() {
-    indexFile.writeAsStringSync(generate().join('\n'));
+  Future<void> create() async {
+    await indexFile.writeAsString(generate().join(package.lineBreak));
   }
 }

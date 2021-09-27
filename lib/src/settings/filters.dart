@@ -1,48 +1,49 @@
+import 'package:glob/glob.dart';
 import 'package:index_generator/src/stringify.dart';
 
 abstract class Filter implements Stringify {
-  final RegExp regExp;
+  final Glob glob;
 
-  const Filter(this.regExp);
+  const Filter(this.glob);
 
   factory Filter.fromJson(Map data) {
-    final regExp = RegExp(data.values.single);
+    final glob = Glob(data.values.single);
     switch (data.keys.single) {
       case 'white':
-        return WhiteFilter(regExp);
+        return WhiteFilter(glob);
       case 'black':
-        return BlackFilter(regExp);
+        return BlackFilter(glob);
     }
     throw 'Not support filter, you can use only "black" or "white"';
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {'filter($runtimeType)': regExp.pattern};
+    return {'filter($runtimeType)': glob.pattern};
   }
 
-  bool accept(String str);
+  bool accept(String path);
 
   @override
   String toString();
 }
 
 class WhiteFilter extends Filter {
-  WhiteFilter(RegExp regExp) : super(regExp);
+  WhiteFilter(Glob glob) : super(glob);
 
   @override
-  bool accept(String str) => regExp.hasMatch(str);
+  bool accept(String path) => glob.matches(path);
 
   @override
-  String toString() => 'WhiteFilter(${regExp.pattern})';
+  String toString() => 'WhiteFilter(${glob.pattern})';
 }
 
 class BlackFilter extends Filter {
-  BlackFilter(RegExp regExp) : super(regExp);
+  BlackFilter(Glob glob) : super(glob);
 
   @override
-  bool accept(String str) => !regExp.hasMatch(str);
+  bool accept(String path) => !glob.matches(path);
 
   @override
-  String toString() => 'BlackFilter(${regExp.pattern})';
+  String toString() => 'BlackFilter(${glob.pattern})';
 }

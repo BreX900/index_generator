@@ -1,8 +1,10 @@
+- Improve filters, now support a Glob expression
 - Improve `exports` fields:
   - You can _show_ a specific class or methods.
   - You can _hide_ a specific class or methods.
 #### BREAKING CHANGES
 - The `exports` field now support a list of structure data with `package`, `show`m `hide` fields.
+- Filters now support a Glob expression
 
 ## 2.1.0
 - Improved handling of yaml file parsing errors using `json_serializable`

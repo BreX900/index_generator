@@ -25,7 +25,7 @@ index_generator:
   default_name: barrel
   # You can define general filters for all indexes
   filters:
-    - black: .*\.g$
+    - black: '**/*.g.dart'
   indexes:
     - path: lib
       # You can define specific filters for this index
@@ -51,7 +51,7 @@ index_generator:
 - **name**: Prioritize ownership in folders, otherwise it will use the one defined in the generator with `default_name` key.
   If it is missing, if the folder is `lib` it will use the package name otherwise the folder name
 - **filters**: You can define `black` filters that remove files from the index but `white` filters will add them back
-  You can use [RegExp] expressions
+  You can use [Glob](https://pub.dev/packages/glob) expressions
 - **folders**: You can define specific export folders paths.
   The path of the folders is relative to the path of the index.
 - **exports**: You can define specific export dart packages in index file. 

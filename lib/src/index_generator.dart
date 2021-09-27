@@ -69,6 +69,7 @@ class IndexGenerator {
     final allFilters = [...package.filters, ...index.filters];
     final blackFilters = allFilters.whereType<BlackFilter>();
     final whiteFilters = allFilters.whereType<WhiteFilter>();
+    print('$indexFile $allFilters');
     return files.where((file) {
       final filePath = file.path.replaceAll(path.separator, '/');
       return blackFilters.every((f) => f.accept(filePath)) ||

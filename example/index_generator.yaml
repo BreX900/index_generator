@@ -1,7 +1,7 @@
 index_generator:
   filters:
-    - black: (^\_.*$)|(.*\/_.*)
-    - black: .*.g.dart$
+    - black: '**/_*.dart'
+    - black: '**/*.g.dart'
   indexes:
     # Default index and library name
     - path: example

@@ -86,8 +86,17 @@ class IndexGenerator {
     });
   }
 
-  Iterable<String> packageToExport(Iterable<String> exports) {
-    return exports.map((export) => "export 'package:$export.dart';");
+  Iterable<String> packageToExport(List<ExportSettings> exports) {
+    return exports.map((export) {
+      var str = "export 'package:${export.package}.dart'";
+      if (export.show.isNotEmpty) {
+        str += ' show ${export.show.join(', ')}';
+      }
+      if (export.hide.isNotEmpty) {
+        str += ' hide ${export.hide.join(', ')}';
+      }
+      return "$str;";
+    });
   }
 
   /// Generate a index file content

@@ -15,4 +15,9 @@ index_generator:
       folders:
         - src
       exports:
-        - args/args
+        - package: args/args
+          show:
+            - ArgResults
+        - package: path/path
+          hide:
+            - joinAll

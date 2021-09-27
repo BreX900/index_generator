@@ -15,21 +15,22 @@ class IndexSettings implements Stringify {
   /// Library name
   final Object? library;
 
-  final List<String> exports;
-
-  /// Export this folder paths
-  final List<String> folders;
+  /// List of export packages
+  final List<ExportSettings> exports;
 
   /// Black or white filters
   final List<Filter> filters;
 
+  /// Export this folder paths
+  final List<String> folders;
+
   const IndexSettings({
     required this.path,
     this.name,
-    this.exports = const <String>[],
-    this.folders = const <String>[''],
-    this.filters = const <Filter>[],
     this.library,
+    this.exports = const <ExportSettings>[],
+    this.filters = const <Filter>[],
+    this.folders = const <String>[''],
   });
 
   String resolveLibraryName(String folderName) {
@@ -48,4 +49,26 @@ class IndexSettings implements Stringify {
   factory IndexSettings.fromJson(Map data) => _$IndexSettingsFromJson(data);
   @override
   Map<String, dynamic> toJson() => _$IndexSettingsToJson(this);
+}
+
+@JsonSerializable()
+class ExportSettings implements Stringify {
+  /// Package name without dart extension
+  final String package;
+
+  /// Class o method to show
+  final List<String> show;
+
+  /// Class o method to hide
+  final List<String> hide;
+
+  const ExportSettings({
+    required this.package,
+    this.show = const [],
+    this.hide = const [],
+  });
+
+  factory ExportSettings.fromJson(Map data) => _$ExportSettingsFromJson(data);
+  @override
+  Map<String, dynamic> toJson() => _$ExportSettingsToJson(this);
 }

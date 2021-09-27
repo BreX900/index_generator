@@ -3,7 +3,7 @@ Automatically generate index / barrel files with all the exports needed for your
 
 ## Usage
 
-1. Activate: `dart pub global activate index_generator`
+1. Activate: `dart/flutter pub global activate index_generator`
 
 2. Create `index_generator.yaml` file or add in your `pubspec.yaml` file:
 ```yaml
@@ -15,9 +15,7 @@ index_generator:
     - path: lib
 ```
 
-3. You can generate index files with one of the following two commands:
-  - `flutter pub global run index_generator`
-  - `dart pub global run index_generator`
+3. You can generate index files with: `<dart|flutter> pub global run index_generator`
 
 ## Advance Usage
 
@@ -38,7 +36,11 @@ index_generator:
         - lib/src
       # You can define specific export dart packages in index file.
       exports:
-        - args/args
+        - package: args/args
+          show:
+            - ArgResults
+          hide:
+            - ArgParser
     - path: generator
       # You can define the name of the index file
       name: main
@@ -52,8 +54,9 @@ index_generator:
   You can use [RegExp] expressions
 - **folders**: You can define specific export folders paths.
   The path of the folders is relative to the path of the index.
-- **exports**: You can define specific export dart packages in index file.
+- **exports**: You can define specific export dart packages in index file. 
+  You can use `package` to export a dart file package without dart extension.
 
 ## Features and bugs
 
-Please file feature requests and bugs at the [issue tracker][https://github.com/BreX900/index_generator/issues].
+Please file feature requests and bugs at the [issue tracker](https://github.com/BreX900/index_generator/issues).

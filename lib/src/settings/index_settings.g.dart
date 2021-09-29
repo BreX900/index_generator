@@ -21,18 +21,22 @@ IndexSettings _$IndexSettingsFromJson(Map json) => $checkedCreate(
                       ?.map((e) => ExportSettings.fromJson(e as Map))
                       .toList() ??
                   const <ExportSettings>[]),
-          filters: $checkedConvert(
-              'filters',
+          include: $checkedConvert(
+              'include',
               (v) =>
                   (v as List<dynamic>?)
-                      ?.map((e) => Filter.fromJson(e as Map))
+                      ?.map((e) =>
+                          const GlobJsonConverter().fromJson(e as String))
                       .toList() ??
-                  const <Filter>[]),
-          folders: $checkedConvert(
-              'folders',
+                  const <Glob>[]),
+          exclude: $checkedConvert(
+              'exclude',
               (v) =>
-                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
-                  const <String>['']),
+                  (v as List<dynamic>?)
+                      ?.map((e) =>
+                          const GlobJsonConverter().fromJson(e as String))
+                      .toList() ??
+                  const <Glob>[]),
         );
         return val;
       },
@@ -44,8 +48,10 @@ Map<String, dynamic> _$IndexSettingsToJson(IndexSettings instance) =>
       'name': instance.name,
       'library': instance.library,
       'exports': instance.exports,
-      'filters': instance.filters,
-      'folders': instance.folders,
+      'include':
+          instance.include.map(const GlobJsonConverter().toJson).toList(),
+      'exclude':
+          instance.exclude.map(const GlobJsonConverter().toJson).toList(),
     };
 
 ExportSettings _$ExportSettingsFromJson(Map json) => $checkedCreate(

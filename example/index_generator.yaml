@@ -1,7 +1,7 @@
 index_generator:
-  filters:
-    - black: '**/_*.dart'
-    - black: '**/*.g.dart'
+  exclude:
+    - '**.g.dart'
+    - '{_,**/_}*.dart'
   indexes:
     # Default index and library name
     - path: example
@@ -12,8 +12,8 @@ index_generator:
     # Custom index and library name
     - path: example
       name: export_folders
-      folders:
-        - src
+      include:
+        - src/**
       exports:
         - package: args/args
           show:

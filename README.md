@@ -8,8 +8,8 @@ Automatically generate index / barrel files with all the exports needed for your
 2. Create `index_generator.yaml` file or add in your `pubspec.yaml` file:
 ```yaml
 index_generator:
-  filters:
-    - black: .*.g.dart$
+  exclude:
+    - '**.g.dart'
   # Define the paths of the folders in which to generate the index files
   indexes:
     - path: lib
@@ -24,16 +24,15 @@ index_generator:
   # You can define the default name of the index file
   default_name: barrel
   # You can define general filters for all indexes
-  filters:
-    - black: '**/*.g.dart'
+  exclude:
+    - '**.g.dart'
+    - '{_,**/_}*.dart'
   indexes:
     - path: lib
       # You can define specific filters for this index
-      filters:
-        - white: .*\include.g$
-      # You can define specific export folders paths
-      folders:
-        - lib/src
+      include:
+        # You can define specific export folders paths
+        - 'src/**'
       # You can define specific export dart packages in index file.
       exports:
         - package: args/args
@@ -48,12 +47,12 @@ index_generator:
       library: index_generator
 ```
 
+- **path**: Path in which to create the index file. All filters will get the relative path from this directory
 - **name**: Prioritize ownership in folders, otherwise it will use the one defined in the generator with `default_name` key.
   If it is missing, if the folder is `lib` it will use the package name otherwise the folder name
-- **filters**: You can define `black` filters that remove files from the index but `white` filters will add them back
-  You can use [Glob](https://pub.dev/packages/glob) expressions
-- **folders**: You can define specific export folders paths.
-  The path of the folders is relative to the path of the index.
+- **library**: The name of the library used in the index dart file by the `library` keyword
+- **include** | **exclude**: You can define filters that exclude or include files to be included in the index. The filters are passed paths relative to the 
+  index file. You can use [Glob](https://pub.dev/packages/glob) expressions.
 - **exports**: You can define specific export dart packages in index file. 
   You can use `package` to export a dart file package without dart extension.
 

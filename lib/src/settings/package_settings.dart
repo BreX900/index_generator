@@ -1,4 +1,5 @@
-import 'package:index_generator/src/settings/filters.dart';
+import 'package:glob/glob.dart';
+import 'package:index_generator/index_generator.dart';
 import 'package:index_generator/src/settings/index_settings.dart';
 import 'package:index_generator/src/stringify.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -17,16 +18,19 @@ class ProjectSettings implements Stringify {
 }
 
 @JsonSerializable()
+@GlobJsonConverter()
 class PackageSettings implements Stringify {
   final String lineBreak;
   final String? defaultName;
-  final List<Filter> filters;
+  final List<Glob> include;
+  final List<Glob> exclude;
   final List<IndexSettings> indexes;
 
   const PackageSettings({
     this.lineBreak = '\u{000A}',
     required this.defaultName,
-    this.filters = const <Filter>[],
+    this.include = const [],
+    this.exclude = const [],
     required this.indexes,
   });
 

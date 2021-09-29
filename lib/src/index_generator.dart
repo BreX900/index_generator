@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:index_generator/src/settings/filters.dart';
 import 'package:index_generator/src/settings/index_settings.dart';
 import 'package:index_generator/src/settings/package_settings.dart';
 import 'package:path/path.dart' as path;
@@ -9,14 +8,15 @@ class IndexGenerator {
   final ProjectSettings project;
   final PackageSettings package;
   final IndexSettings index;
+
+  final Directory indexFolder;
   final File indexFile;
-  final List<Directory> folders;
 
   IndexGenerator._({
     required this.project,
     required this.package,
     required this.index,
-    required this.folders,
+    required this.indexFolder,
     required this.indexFile,
   });
 
@@ -46,44 +46,54 @@ class IndexGenerator {
       project: project,
       package: package,
       index: index,
-      folders: index.folders.map((dir) {
-        return Directory(path.join(index.path, dir.replaceAll('/', path.separator)));
-      }).toList(),
+      indexFolder: Directory(index.path),
       indexFile: File(indexPath),
     );
   }
 
   /// Find dart files without index file
   Iterable<File> findFiles() {
-    return folders.expand((dir) {
-      return dir.listSync(recursive: true);
-    }).where((file) {
+    return indexFolder.listSync(recursive: true).where((file) {
       return file.path.endsWith('.dart') && file.path != indexFile.path;
     }).map((e) {
       return File(e.path);
     });
   }
 
+  String getRelativeUnixPath(File file) {
+    final filePath = file.path.replaceFirst(indexFolder.path, '');
+    var unixFilePath = filePath.replaceAll(path.separator, '/');
+
+    if (unixFilePath.startsWith('./')) {
+      unixFilePath = unixFilePath.substring(2);
+    } else if (unixFilePath.startsWith('/')) {
+      unixFilePath = unixFilePath.substring(1);
+    }
+    return unixFilePath;
+  }
+
   /// Filter [files] with [config] and [index] filters
   Iterable<File> filterFiles(Iterable<File> files) {
-    final allFilters = [...package.filters, ...index.filters];
-    final blackFilters = allFilters.whereType<BlackFilter>();
-    final whiteFilters = allFilters.whereType<WhiteFilter>();
-    print('$indexFile $allFilters');
+    final include = [...package.include, ...index.include];
+    final exclude = [...package.exclude, ...index.exclude];
+
     return files.where((file) {
-      final filePath = file.path.replaceAll(path.separator, '/');
-      return blackFilters.every((f) => f.accept(filePath)) ||
-          whiteFilters.any((f) => f.accept(filePath));
+      final filePath = getRelativeUnixPath(file);
+
+      final isIncluded = include.isEmpty || include.any((f) => f.matches(filePath));
+      if (!isIncluded) return false;
+
+      final isExcluded = exclude.any((f) => f.matches(filePath));
+      return !isExcluded;
     });
   }
 
   /// Convert dart [files] in index content lines
-  Iterable<String> fileToExport(Iterable<FileSystemEntity> files) {
+  Iterable<String> fileToExport(Iterable<File> files) {
     return files.map((file) {
-      final indexPath = indexFile.path;
-      final filePath = file.path;
-      final importPath = filePath.replaceFirst(path.dirname(indexPath), '');
-      return "export '${importPath.replaceFirst(path.separator, '').replaceAll('\\', '/')}';";
+      final filePath = getRelativeUnixPath(file);
+
+      return "export '$filePath';";
     });
   }
 
@@ -103,7 +113,10 @@ class IndexGenerator {
   /// Generate a index file content
   Iterable<String> generate() {
     final externalExports = packageToExport(index.exports).toList()..sort();
-    final internalExports = fileToExport(filterFiles(findFiles())).toList()..sort();
+
+    final internalFiles = findFiles();
+    final internalFilteredFiles = filterFiles(internalFiles);
+    final internalExports = fileToExport(internalFilteredFiles).toList()..sort();
 
     return [
       '// GENERATED CODE - DO NOT MODIFY BY HAND',

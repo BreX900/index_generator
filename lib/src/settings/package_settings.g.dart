@@ -30,13 +30,22 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
           lineBreak:
               $checkedConvert('line_break', (v) => v as String? ?? '\u{000A}'),
           defaultName: $checkedConvert('default_name', (v) => v as String?),
-          filters: $checkedConvert(
-              'filters',
+          include: $checkedConvert(
+              'include',
               (v) =>
                   (v as List<dynamic>?)
-                      ?.map((e) => Filter.fromJson(e as Map))
+                      ?.map((e) =>
+                          const GlobJsonConverter().fromJson(e as String))
                       .toList() ??
-                  const <Filter>[]),
+                  const []),
+          exclude: $checkedConvert(
+              'exclude',
+              (v) =>
+                  (v as List<dynamic>?)
+                      ?.map((e) =>
+                          const GlobJsonConverter().fromJson(e as String))
+                      .toList() ??
+                  const []),
           indexes: $checkedConvert(
               'indexes',
               (v) => (v as List<dynamic>)
@@ -55,7 +64,10 @@ Map<String, dynamic> _$PackageSettingsToJson(PackageSettings instance) =>
     <String, dynamic>{
       'line_break': instance.lineBreak,
       'default_name': instance.defaultName,
-      'filters': instance.filters,
+      'include':
+          instance.include.map(const GlobJsonConverter().toJson).toList(),
+      'exclude':
+          instance.exclude.map(const GlobJsonConverter().toJson).toList(),
       'indexes': instance.indexes,
     };
 

@@ -1,10 +1,11 @@
+import 'package:glob/glob.dart';
 import 'package:index_generator/index_generator.dart';
-import 'package:index_generator/src/settings/filters.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'index_settings.g.dart';
 
 @JsonSerializable()
+@GlobJsonConverter()
 class IndexSettings implements Stringify {
   /// Folder path to create a index file
   final String path;
@@ -18,19 +19,19 @@ class IndexSettings implements Stringify {
   /// List of export packages
   final List<ExportSettings> exports;
 
-  /// Black or white filters
-  final List<Filter> filters;
+  /// White filters
+  final List<Glob> include;
 
-  /// Export this folder paths
-  final List<String> folders;
+  /// Black filters
+  final List<Glob> exclude;
 
   const IndexSettings({
     required this.path,
     this.name,
     this.library,
     this.exports = const <ExportSettings>[],
-    this.filters = const <Filter>[],
-    this.folders = const <String>[''],
+    this.include = const <Glob>[],
+    this.exclude = const <Glob>[],
   });
 
   String resolveLibraryName(String folderName) {

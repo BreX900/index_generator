@@ -5,6 +5,8 @@
 #### BREAKING CHANGES
 - The `exports` field now support a list of structure data with `package`, `show`m `hide` fields.
 - Filters now support a Glob expression
+- Filters now is separated in `include` and `exclude` fields
+- The `folders` keyboard is removed in favour of `include` keyboard
 
 ## 2.1.0
 - Improved handling of yaml file parsing errors using `json_serializable`

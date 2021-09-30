@@ -1,6 +1,6 @@
 name: index_generator
 description: Automatically generate index / barrel / library files with all the export needed for your library.
-version: 2.1.0
+version: 3.0.0
 homepage: https://github.com/BreX900/index_generator
 
 # dart pub publish --dry-run

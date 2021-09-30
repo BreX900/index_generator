@@ -1,3 +1,5 @@
+## 3.0.0
+### STABLE RELEASE
 - Improve filters, now support a Glob expression
 - Improve `exports` fields:
   - You can _show_ a specific class or methods.

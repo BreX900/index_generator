@@ -1,6 +1,9 @@
 # Index Generator
 Automatically generate index / barrel files with all the exports needed for your library.
 
+### Stable release
+There will be no more breaking changes
+
 ## Usage
 
 1. Activate: `dart/flutter pub global activate index_generator`

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:index_generator/src/dart_code/dart_export.dart';
 import 'package:index_generator/src/settings/index_settings.dart';
 import 'package:index_generator/src/settings/package_settings.dart';
 import 'package:path/path.dart' as path;
@@ -41,7 +42,8 @@ class IndexGenerator {
     PackageSettings package,
     IndexSettings index,
   ) {
-    final indexPath = path.join(index.path, '${_resolveIndexName(project, package, index)}.dart');
+    final indexPath = path.join(
+        index.path, '${_resolveIndexName(project, package, index)}.dart');
     return IndexGenerator._(
       project: project,
       package: package,
@@ -80,7 +82,8 @@ class IndexGenerator {
     return files.where((file) {
       final filePath = getRelativeUnixPath(file);
 
-      final isIncluded = include.isEmpty || include.any((f) => f.matches(filePath));
+      final isIncluded =
+          include.isEmpty || include.any((f) => f.matches(filePath));
       if (!isIncluded) return false;
 
       final isExcluded = exclude.any((f) => f.matches(filePath));
@@ -97,26 +100,26 @@ class IndexGenerator {
     });
   }
 
-  Iterable<String> packageToExport(List<ExportSettings> exports) {
-    return exports.map((export) {
-      var str = "export 'package:${export.package}.dart'";
-      if (export.show.isNotEmpty) {
-        str += ' show ${export.show.join(', ')}';
-      }
-      if (export.hide.isNotEmpty) {
-        str += ' hide ${export.hide.join(', ')}';
-      }
-      return "$str;";
-    });
+  Iterable<String> packagesToExports(List<ExportSettings> exports) {
+    return exports.map(_packageToExport);
+  }
+
+  String _packageToExport(ExportSettings export) {
+    return DartExport(
+      library: export.package,
+      show: export.show,
+      hide: export.hide,
+    ).toCode();
   }
 
   /// Generate a index file content
   Iterable<String> generate() {
-    final externalExports = packageToExport(index.exports).toList()..sort();
+    final externalExports = packagesToExports(index.exports).toList()..sort();
 
     final internalFiles = findFiles();
     final internalFilteredFiles = filterFiles(internalFiles);
-    final internalExports = fileToExport(internalFilteredFiles).toList()..sort();
+    final internalExports = fileToExport(internalFilteredFiles).toList()
+      ..sort();
 
     return [
       '// GENERATED CODE - DO NOT MODIFY BY HAND',

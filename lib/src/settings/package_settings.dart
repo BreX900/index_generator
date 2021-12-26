@@ -1,5 +1,5 @@
 import 'package:glob/glob.dart';
-import 'package:index_generator/index_generator.dart';
+import 'package:index_generator/src/converters.dart';
 import 'package:index_generator/src/settings/index_settings.dart';
 import 'package:index_generator/src/stringify.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -34,7 +34,8 @@ class PackageSettings implements Stringify {
     required this.indexes,
   });
 
-  static PackageSettings fromYaml(Map map) => GeneralSettings.fromJson(map).indexGenerator;
+  static PackageSettings fromYaml(Map map) =>
+      GeneralSettings.fromJson(map).indexGenerator;
 
   factory PackageSettings.fromJson(Map map) => _$PackageSettingsFromJson(map);
   @override

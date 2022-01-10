@@ -1,3 +1,7 @@
+## 3.1.0
+- Added support for exporting dart core libraries
+  - Please change from 'library/file' to 'package:library/file.dart'. (The old version remains supported)
+
 ## 3.0.0
 ### STABLE RELEASE
 - Improve filters, now support a Glob expression

@@ -38,7 +38,7 @@ index_generator:
         - 'src/**'
       # You can define specific export dart packages in index file.
       exports:
-        - package: args/args
+        - package: package:args/args.dart
           show:
             - ArgResults
           hide:
@@ -57,7 +57,7 @@ index_generator:
 - **include** | **exclude**: You can define filters that exclude or include files to be included in the index. The filters are passed paths relative to the 
   index file. You can use [Glob](https://pub.dev/packages/glob) expressions.
 - **exports**: You can define specific export dart packages in index file. 
-  You can use `package` to export a dart file package without dart extension.
+  You can use `package` to export a dart file package or dart core library.
 
 ## Features and bugs
 

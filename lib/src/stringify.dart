@@ -25,7 +25,7 @@ class _JsonStringifier extends Stringifier {
   final String lineBreak;
 
   const _JsonStringifier({
-    this.identity = ' ',
+    this.identity = '  ',
     this.lineBreak = '\n',
   });
 
@@ -67,37 +67,54 @@ class _MinimalStringifier extends Stringifier {
   final String lineBreak;
 
   const _MinimalStringifier({
-    this.identity = ' ',
+    this.identity = '  ',
     this.lineBreak = '\n',
   });
 
   @override
-  String stringify(Object object) => stringifyObject(object, identity: '');
+  String stringify(Object? object) =>
+      stringifyObject(object is Stringify, identity: '');
 
-  String stringifyObject(Object object, {required String identity, String? name}) {
+  String stringifyObject(
+    Object? object, {
+    required String identity,
+    String? name,
+  }) {
     final id = identity + this.identity;
+    name ??= '${object.runtimeType}';
     if (object is Stringify) {
-      return stringifyObject(object.toJson(), name: '${object.runtimeType}', identity: identity);
+      return stringifyObject(object.toJson(), name: name, identity: identity);
     }
     if (object is List) {
-      return stringifyCollection([
-        for (int i = 0; i < object.length; i++) '$i. ${stringifyObject(object[i], identity: id)}',
-      ], name: 'List', identity: identity);
+      return stringifyCollection(
+        {
+          for (var i = 0; i < object.length; i++) '$i': object[i],
+        },
+        name: name,
+        identity: id,
+        separator: '.',
+      );
     }
     if (object is Map) {
-      return stringifyCollection(object.entries.map((e) {
-        return '"${e.key}": ${stringifyObject(e.value, identity: id)}';
-      }), name: name ?? 'Map', identity: identity);
+      return stringifyCollection(
+        object,
+        name: name,
+        identity: id,
+        separator: ':',
+      );
     }
     return jsonEncode(object);
   }
 
   String stringifyCollection(
-    Iterable<String> object, {
+    Map<Object?, Object?> object, {
     required String name,
     required String identity,
+    required String separator,
   }) {
-    final id = identity + this.identity;
-    return '$name$lineBreak${object.map((object) => '$id$object').join(lineBreak)}';
+    if (object.isEmpty) return name;
+    return '$name$lineBreak${object.entries.map((e) {
+      return '$identity${e.key}$separator ${stringifyObject(e.value, identity: identity)}';
+    }).join(lineBreak)}';
   }
 }

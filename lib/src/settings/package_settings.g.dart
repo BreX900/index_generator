@@ -29,6 +29,7 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
         final val = PackageSettings(
           lineBreak:
               $checkedConvert('line_break', (v) => v as String? ?? '\u{000A}'),
+          pageWidth: $checkedConvert('page_width', (v) => v as int? ?? 80),
           defaultName: $checkedConvert('default_name', (v) => v as String?),
           include: $checkedConvert(
               'include',
@@ -56,6 +57,7 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
       },
       fieldKeyMap: const {
         'lineBreak': 'line_break',
+        'pageWidth': 'page_width',
         'defaultName': 'default_name'
       },
     );
@@ -63,6 +65,7 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
 Map<String, dynamic> _$PackageSettingsToJson(PackageSettings instance) =>
     <String, dynamic>{
       'line_break': instance.lineBreak,
+      'page_width': instance.pageWidth,
       'default_name': instance.defaultName,
       'include':
           instance.include.map(const GlobJsonConverter().toJson).toList(),

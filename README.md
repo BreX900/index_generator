@@ -62,3 +62,8 @@ index_generator:
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker](https://github.com/BreX900/index_generator/issues).
+
+# Extra
+
+- [mek_assets](https://pub.dev/packages/mek_assets): Automatically generate dart classes / flutter pubspec entries for your assets files.
+- [mek_data_class](https://pub.dev/packages/mek_data_class): Generate `hashCode`, `==`, `toString`, `copyWith` and `change` methods with low code.

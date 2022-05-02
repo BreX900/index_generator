@@ -1,3 +1,7 @@
+## 3.2.0+1
+- Now you can set the page size via `page_width`.
+- Now the generated code is formatted.
+
 ## 3.1.0
 - Added support for exporting dart core libraries
   - Please change from 'library/file' to 'package:library/file.dart'. (The old version remains supported)

@@ -21,6 +21,7 @@ class ProjectSettings implements Stringify {
 @GlobJsonConverter()
 class PackageSettings implements Stringify {
   final String lineBreak;
+  final int pageWidth;
   final String? defaultName;
   final List<Glob> include;
   final List<Glob> exclude;
@@ -28,14 +29,14 @@ class PackageSettings implements Stringify {
 
   const PackageSettings({
     this.lineBreak = '\u{000A}',
+    this.pageWidth = 80,
     required this.defaultName,
     this.include = const [],
     this.exclude = const [],
     required this.indexes,
   });
 
-  static PackageSettings fromYaml(Map map) =>
-      GeneralSettings.fromJson(map).indexGenerator;
+  static PackageSettings fromYaml(Map map) => GeneralSettings.fromJson(map).indexGenerator;
 
   factory PackageSettings.fromJson(Map map) => _$PackageSettingsFromJson(map);
   @override

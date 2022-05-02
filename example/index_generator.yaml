@@ -1,4 +1,5 @@
 index_generator:
+  page_width: 100
   exclude:
     - '**.g.dart'
     - '{_,**/_}*.dart'
@@ -15,9 +16,12 @@ index_generator:
       include:
         - src/**
       exports:
-        - package: args/args
+        - package: package:args/args.dart
           show:
             - ArgResults
-        - package: path/path
+        - package: package:path/path.dart
           hide:
-            - joinAll
+            - isRootRelative
+            - basenameWithoutExtension
+            - canonicalize
+            - withoutExtension

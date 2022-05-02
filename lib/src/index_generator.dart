@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dart_style/dart_style.dart';
 import 'package:index_generator/src/dart_code/dart_export.dart';
 import 'package:index_generator/src/settings/index_settings.dart';
 import 'package:index_generator/src/settings/package_settings.dart';
@@ -42,8 +43,7 @@ class IndexGenerator {
     PackageSettings package,
     IndexSettings index,
   ) {
-    final indexPath = path.join(
-        index.path, '${_resolveIndexName(project, package, index)}.dart');
+    final indexPath = path.join(index.path, '${_resolveIndexName(project, package, index)}.dart');
     return IndexGenerator._(
       project: project,
       package: package,
@@ -82,8 +82,7 @@ class IndexGenerator {
     return files.where((file) {
       final filePath = getRelativeUnixPath(file);
 
-      final isIncluded =
-          include.isEmpty || include.any((f) => f.matches(filePath));
+      final isIncluded = include.isEmpty || include.any((f) => f.matches(filePath));
       if (!isIncluded) return false;
 
       final isExcluded = exclude.any((f) => f.matches(filePath));
@@ -118,8 +117,7 @@ class IndexGenerator {
 
     final internalFiles = findFiles();
     final internalFilteredFiles = filterFiles(internalFiles);
-    final internalExports = fileToExport(internalFilteredFiles).toList()
-      ..sort();
+    final internalExports = fileToExport(internalFilteredFiles).toList()..sort();
 
     return [
       '// GENERATED CODE - DO NOT MODIFY BY HAND',
@@ -137,6 +135,13 @@ class IndexGenerator {
 
   /// Create a index file content
   Future<void> create() async {
-    await indexFile.writeAsString(generate().join(package.lineBreak));
+    final formatter = DartFormatter(
+      lineEnding: package.lineBreak,
+      pageWidth: package.pageWidth,
+    );
+
+    final content = formatter.format(generate().join(package.lineBreak));
+
+    await indexFile.writeAsString(content);
   }
 }

@@ -25,19 +25,17 @@ void main(List<String> rawArgs) async {
 
   Print.workInfo('Initializing work space...');
 
-  final project =
-      await ToolBox.loadYaml(toolBox.projectYaml, ProjectSettings.fromJson);
+  final project = await ToolBox.loadYaml(toolBox.projectYaml, ProjectSettings.fromJson);
   final settingsFile = await toolBox.findYaml(settingsPath);
-  final settings =
-      await ToolBox.loadYaml(settingsFile, PackageSettings.fromYaml);
+  final settings = await ToolBox.loadYaml(settingsFile, PackageSettings.fromYaml);
 
   if (canVerbose) {
-    Print.verbose(Stringifier.minimal().stringify(project));
-    Print.verbose(Stringifier.minimal().stringify(settings));
+    Print.verbose(project);
+    Print.verbose(settings);
   }
 
-  final generators = settings.indexes.map((index) {
-    return IndexGenerator.from(project, settings, index);
+  final generators = settings.libraries.map((library) {
+    return IndexGenerator.from(project, settings, library);
   }).toList();
 
   Print.workInfo('Initialized work space!');

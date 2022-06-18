@@ -1,15 +1,16 @@
 import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
+import 'package:index_generator/src/_utils.dart';
 import 'package:index_generator/src/dart_code/dart_export.dart';
-import 'package:index_generator/src/settings/index_settings.dart';
+import 'package:index_generator/src/settings/library_settings.dart';
 import 'package:index_generator/src/settings/package_settings.dart';
 import 'package:path/path.dart' as path;
 
 class IndexGenerator {
   final ProjectSettings project;
   final PackageSettings package;
-  final IndexSettings index;
+  final LibrarySettings index;
 
   final Directory indexFolder;
   final File indexFile;
@@ -22,33 +23,20 @@ class IndexGenerator {
     required this.indexFile,
   });
 
-  static String _resolveIndexName(
-    ProjectSettings project,
-    PackageSettings package,
-    IndexSettings index,
-  ) {
-    if (index.name != null) {
-      return index.name!;
-    } else if (path.basename(index.path) == 'lib') {
-      return project.name;
-    } else if (package.defaultName != null) {
-      return package.defaultName!;
-    } else {
-      return path.basename(index.path);
-    }
-  }
-
   factory IndexGenerator.from(
     ProjectSettings project,
     PackageSettings package,
-    IndexSettings index,
+    LibrarySettings index,
   ) {
-    final indexPath = path.join(index.path, '${_resolveIndexName(project, package, index)}.dart');
+    final indexPath = path.join(
+      index.dirPath,
+      '${index.resolveFileName(project.name, package.defaultFileName)}.dart',
+    );
     return IndexGenerator._(
       project: project,
       package: package,
       index: index,
-      indexFolder: Directory(index.path),
+      indexFolder: Directory(index.dirPath),
       indexFile: File(indexPath),
     );
   }
@@ -105,7 +93,7 @@ class IndexGenerator {
 
   String _packageToExport(ExportSettings export) {
     return DartExport(
-      library: export.package,
+      package: export.package,
       show: export.show,
       hide: export.hide,
     ).toCode();
@@ -113,6 +101,9 @@ class IndexGenerator {
 
   /// Generate a index file content
   Iterable<String> generate() {
+    final comments = Utils.parseTextLines(index.comments);
+    final docs = Utils.parseTextLines(index.docs);
+
     final externalExports = packagesToExports(index.exports).toList()..sort();
 
     final internalFiles = findFiles();
@@ -120,9 +111,17 @@ class IndexGenerator {
     final internalExports = fileToExport(internalFilteredFiles).toList()..sort();
 
     return [
-      '// GENERATED CODE - DO NOT MODIFY BY HAND',
-      '',
-      'library ${index.library ?? index.name ?? path.basename(index.path)};',
+      if (index.disclaimer) ...[
+        '// GENERATED CODE - DO NOT MODIFY BY HAND',
+        '',
+      ],
+      if (comments.isNotEmpty) ...[
+        for (final line in comments) '// $line',
+        '',
+      ],
+      if (docs.isNotEmpty)
+        for (final line in docs) '/// $line',
+      'library ${index.resolveLibraryName(project.name)};',
       '',
       if (externalExports.isNotEmpty) ...[
         ...externalExports,

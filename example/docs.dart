@@ -1,8 +1,11 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+// This is a comments.
 
-library custom_library_name;
+/// This is
+///
+/// a docs.
+library docs;
 
-export 'docs.dart';
+export 'custom_index_name.dart';
 export 'example.dart';
 export 'export_folders.dart';
 export 'pick.dart';

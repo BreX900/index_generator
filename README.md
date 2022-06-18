@@ -22,6 +22,8 @@ index_generator:
 
 ## Advance Usage
 
+[See more examples](https://github.com/BreX900/index_generator/tree/master/example)
+
 ```yaml
 index_generator:
   # You can define the default name of the index file
@@ -46,6 +48,15 @@ index_generator:
     - path: generator
       # You can define the name of the index file
       name: main
+      # Disable/Enable the generated code disclaimer
+      disclaimer: false
+      # Comments added on the generated file, like copyright
+      comments: |
+        Copyright (c) 2020 BreX900
+      # Documentation added on the generated file above the library name
+      docs: | 
+        Automatically generate index / barrel / library files
+        with all the export needed for your library.
       # You can define the name of the library to use within the index
       library: index_generator
 ```

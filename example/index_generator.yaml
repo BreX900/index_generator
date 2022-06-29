@@ -25,3 +25,11 @@ index_generator:
             - basenameWithoutExtension
             - canonicalize
             - withoutExtension
+    - path: example
+      name: docs
+      disclaimer: false
+      comments: This is a comments.
+      docs: |
+        This is
+        
+        a docs.

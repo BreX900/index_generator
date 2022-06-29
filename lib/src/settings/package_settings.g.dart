@@ -3,6 +3,81 @@
 part of 'package_settings.dart';
 
 // **************************************************************************
+// DataClassGenerator
+// **************************************************************************
+
+// ignore_for_file: annotate_overrides
+
+mixin _$ProjectSettings {
+  ProjectSettings get _self => this as ProjectSettings;
+
+  Iterable<Object?> get _props sync* {
+    yield _self.name;
+  }
+
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _$ProjectSettings &&
+          runtimeType == other.runtimeType &&
+          DataClass.$equals(_props, other._props);
+
+  int get hashCode => Object.hashAll(_props);
+
+  String toString() =>
+      (ClassToString('ProjectSettings')..add('name', _self.name)).toString();
+}
+
+mixin _$PackageSettings {
+  PackageSettings get _self => this as PackageSettings;
+
+  Iterable<Object?> get _props sync* {
+    yield _self.lineBreak;
+    yield _self.pageWidth;
+    yield _self.defaultFileName;
+    yield _self.include;
+    yield _self.exclude;
+    yield _self.libraries;
+  }
+
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _$PackageSettings &&
+          runtimeType == other.runtimeType &&
+          DataClass.$equals(_props, other._props);
+
+  int get hashCode => Object.hashAll(_props);
+
+  String toString() => (ClassToString('PackageSettings')
+        ..add('lineBreak', _self.lineBreak)
+        ..add('pageWidth', _self.pageWidth)
+        ..add('defaultFileName', _self.defaultFileName)
+        ..add('include', _self.include)
+        ..add('exclude', _self.exclude)
+        ..add('libraries', _self.libraries))
+      .toString();
+}
+
+mixin _$GeneralSettings {
+  GeneralSettings get _self => this as GeneralSettings;
+
+  Iterable<Object?> get _props sync* {
+    yield _self.indexGenerator;
+  }
+
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _$GeneralSettings &&
+          runtimeType == other.runtimeType &&
+          DataClass.$equals(_props, other._props);
+
+  int get hashCode => Object.hashAll(_props);
+
+  String toString() => (ClassToString('GeneralSettings')
+        ..add('indexGenerator', _self.indexGenerator))
+      .toString();
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
@@ -17,11 +92,6 @@ ProjectSettings _$ProjectSettingsFromJson(Map json) => $checkedCreate(
       },
     );
 
-Map<String, dynamic> _$ProjectSettingsToJson(ProjectSettings instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
-
 PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
       'PackageSettings',
       json,
@@ -30,7 +100,7 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
           lineBreak:
               $checkedConvert('line_break', (v) => v as String? ?? '\u{000A}'),
           pageWidth: $checkedConvert('page_width', (v) => v as int? ?? 80),
-          defaultName: $checkedConvert('default_name', (v) => v as String?),
+          defaultFileName: $checkedConvert('defaultName', (v) => v as String?),
           include: $checkedConvert(
               'include',
               (v) =>
@@ -47,10 +117,10 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
                           const GlobJsonConverter().fromJson(e as String))
                       .toList() ??
                   const []),
-          indexes: $checkedConvert(
+          libraries: $checkedConvert(
               'indexes',
               (v) => (v as List<dynamic>)
-                  .map((e) => IndexSettings.fromJson(e as Map))
+                  .map((e) => LibrarySettings.fromJson(e as Map))
                   .toList()),
         );
         return val;
@@ -58,21 +128,10 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
       fieldKeyMap: const {
         'lineBreak': 'line_break',
         'pageWidth': 'page_width',
-        'defaultName': 'default_name'
+        'defaultFileName': 'defaultName',
+        'libraries': 'indexes'
       },
     );
-
-Map<String, dynamic> _$PackageSettingsToJson(PackageSettings instance) =>
-    <String, dynamic>{
-      'line_break': instance.lineBreak,
-      'page_width': instance.pageWidth,
-      'default_name': instance.defaultName,
-      'include':
-          instance.include.map(const GlobJsonConverter().toJson).toList(),
-      'exclude':
-          instance.exclude.map(const GlobJsonConverter().toJson).toList(),
-      'indexes': instance.indexes,
-    };
 
 GeneralSettings _$GeneralSettingsFromJson(Map json) => $checkedCreate(
       'GeneralSettings',
@@ -86,8 +145,3 @@ GeneralSettings _$GeneralSettingsFromJson(Map json) => $checkedCreate(
       },
       fieldKeyMap: const {'indexGenerator': 'index_generator'},
     );
-
-Map<String, dynamic> _$GeneralSettingsToJson(GeneralSettings instance) =>
-    <String, dynamic>{
-      'index_generator': instance.indexGenerator,
-    };

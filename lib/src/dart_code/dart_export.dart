@@ -1,25 +1,24 @@
 class DartExport {
-  final String library;
+  final String package;
   final List<String> show;
   final List<String> hide;
 
   const DartExport({
-    required this.library,
+    required this.package,
     this.show = const [],
     this.hide = const [],
   });
 
   String toCode({StringBuffer? sb}) {
     sb ??= StringBuffer();
-    sb.write('export \'');
 
-    if (library.endsWith('.dart')) {
-      sb.write(library);
+    sb.write('export \'');
+    if (package.endsWith('.dart')) {
+      sb.write(package);
     } else {
       // TODO: Remove support on 4.0.0 version
-      print(
-          '[WARNING]: Please change from \'$library\' to \'package:$library.dart\'');
-      sb.write('package:$library.dart');
+      print('[WARNING]: Please change from \'$package\' to \'package:$package.dart\'');
+      sb.write('package:$package.dart');
     }
     sb.write('\'');
 

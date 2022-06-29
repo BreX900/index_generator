@@ -1,3 +1,10 @@
+# CHANGELOG
+
+- feat can disable printing generated code `disclaimer`
+- feat added the `comments` field to the `indexes` to be able to add the comments or copyright to the library
+- feat added the `docs` field to the `indexes` to be able to add the documentation to the library
+- fix file library name when target a `lib` folder
+
 ## 3.2.0+1
 - Now you can set the page size via `page_width`.
 - Now the generated code is formatted.

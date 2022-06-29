@@ -1,5 +1,6 @@
 # CHANGELOG
 
+## 3.3.0
 - feat can disable printing generated code `disclaimer`
 - feat added the `comments` field to the `indexes` to be able to add the comments or copyright to the library
 - feat added the `docs` field to the `indexes` to be able to add the documentation to the library

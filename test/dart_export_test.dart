@@ -4,6 +4,16 @@ import 'package:test/scaffolding.dart';
 
 void main() {
   group('test DartExport class', () {
+    test('Export dart package file', () {
+      final export = DartExport(
+        package: 'dart:async',
+        show: ['Future'],
+        hide: ['Stream'],
+      );
+
+      expect(export.toCode(), 'export \'dart:async\' show Future hide Stream;');
+    });
+
     test('Export only library', () {
       final export = DartExport(
         package: 'package:example/example.dart',

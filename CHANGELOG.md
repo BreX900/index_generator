@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.3.1
+- fix export dart core libraries
+
 ## 3.3.0
 - feat can disable printing generated code `disclaimer`
 - feat added the `comments` field to the `indexes` to be able to add the comments or copyright to the library

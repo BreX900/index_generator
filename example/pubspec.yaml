@@ -1,0 +1,9 @@
+name: example
+publish_to: 'none'
+
+environment:
+  sdk: '>=2.10.0 <3.0.0'
+
+dependencies:
+  args:
+  path:

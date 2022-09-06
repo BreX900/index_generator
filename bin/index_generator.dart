@@ -6,11 +6,17 @@ import 'package:console/console.dart';
 import 'package:index_generator/index_generator.dart';
 
 final argsParser = ArgParser()
-  ..addOption('settings', abbr: 's', valueHelp: 'Define a yaml file path.')
-  ..addFlag('verbose', abbr: 'v', defaultsTo: false, help: 'Print more logs')
+  ..addOption(
+    'settings',
+    abbr: 's',
+    valueHelp: 'Define a yaml file path.',
+    help:
+        'If not present use the "index_generator.yaml" file if it exists otherwise use the "pubspec.yaml" file.',
+  )
+  ..addFlag('verbose', abbr: 'v', defaultsTo: false, help: 'Print verbose logs')
   ..addFlag('help', abbr: 'h', defaultsTo: false, negatable: false);
 
-final toolBox = ToolBox(name: 'index_generator.yaml');
+final toolBox = ToolBox(name: 'index_generator');
 
 void main(List<String> rawArgs) async {
   final args = argsParser.parse(rawArgs);
@@ -27,6 +33,7 @@ void main(List<String> rawArgs) async {
 
   final project = await ToolBox.loadYaml(toolBox.projectYaml, ProjectSettings.fromJson);
   final settingsFile = await toolBox.findYaml(settingsPath);
+  Print.verbose('Settings file: ${settingsFile.path}');
   final settings = await ToolBox.loadYaml(settingsFile, PackageSettings.fromYaml);
 
   if (canVerbose) {

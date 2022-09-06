@@ -5,13 +5,13 @@ index_generator:
     - '{_,**/_}*.dart'
   indexes:
     # Default index and library name
-    - path: example
+    - path: lib
     # Custom index and library name
-    - path: example
+    - path: lib
       name: custom_index_name
       library: custom_library_name
     # Custom index and library name
-    - path: example
+    - path: lib
       name: export_folders
       include:
         - src/**
@@ -25,7 +25,7 @@ index_generator:
             - basenameWithoutExtension
             - canonicalize
             - withoutExtension
-    - path: example
+    - path: lib
       name: docs
       disclaimer: false
       comments: This is a comments.

@@ -70,6 +70,14 @@ index_generator:
 - **exports**: You can define specific export dart packages in index file. 
   You can use `package` to export a dart file package or dart core library.
 
+## Command
+`--help` command output:
+```
+-s, --settings=<Define a yaml file path.>    If not present use the "index_generator.yaml" file if it exists otherwise use the "pubspec.yaml" file.
+-v, --[no-]verbose                           Print verbose logs
+-h, --help 
+```
+
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker](https://github.com/BreX900/index_generator/issues).

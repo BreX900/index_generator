@@ -1,0 +1,4 @@
+index_generator:
+  indexes:
+    - path: lib
+      name: settings

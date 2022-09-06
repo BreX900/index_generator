@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.3.2
+- Fix the search for the yaml file within the project. Now correctly find the index_generator.yaml file
+
 ## 3.3.1
 - fix export dart core libraries
 

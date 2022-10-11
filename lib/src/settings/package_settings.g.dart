@@ -6,7 +6,7 @@ part of 'package_settings.dart';
 // DataClassGenerator
 // **************************************************************************
 
-// ignore_for_file: annotate_overrides
+// ignore_for_file: annotate_overrides, unused_element
 
 mixin _$ProjectSettings {
   ProjectSettings get _self => this as ProjectSettings;
@@ -100,7 +100,7 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
           lineBreak:
               $checkedConvert('line_break', (v) => v as String? ?? '\u{000A}'),
           pageWidth: $checkedConvert('page_width', (v) => v as int? ?? 80),
-          defaultFileName: $checkedConvert('defaultName', (v) => v as String?),
+          defaultFileName: $checkedConvert('default_name', (v) => v as String?),
           include: $checkedConvert(
               'include',
               (v) =>
@@ -128,7 +128,7 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
       fieldKeyMap: const {
         'lineBreak': 'line_break',
         'pageWidth': 'page_width',
-        'defaultFileName': 'defaultName',
+        'defaultFileName': 'default_name',
         'libraries': 'indexes'
       },
     );

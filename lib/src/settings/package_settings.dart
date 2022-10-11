@@ -22,7 +22,7 @@ class ProjectSettings with _$ProjectSettings {
 class PackageSettings with _$PackageSettings {
   final String lineBreak;
   final int pageWidth;
-  @JsonKey(name: 'defaultName')
+  @JsonKey(name: 'default_name')
   final String? defaultFileName;
   final List<Glob> include;
   final List<Glob> exclude;

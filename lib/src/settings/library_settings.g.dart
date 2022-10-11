@@ -6,7 +6,7 @@ part of 'library_settings.dart';
 // DataClassGenerator
 // **************************************************************************
 
-// ignore_for_file: annotate_overrides
+// ignore_for_file: annotate_overrides, unused_element
 
 mixin _$LibrarySettings {
   LibrarySettings get _self => this as LibrarySettings;

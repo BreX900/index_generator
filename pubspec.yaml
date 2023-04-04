@@ -45,3 +45,6 @@ index_generator:
       docs: |
         Automatically generate index / barrel / library files
         with all the export needed for your library.
+
+executables:
+  index_generator: 

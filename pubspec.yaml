@@ -1,9 +1,14 @@
 name: index_generator
 description: Automatically generate index / barrel / library files with all the export needed for your library.
-version: 3.3.3
+version: 3.4.0
 homepage: https://github.com/BreX900/index_generator
 
 # dart pub publish --dry-run
+
+scripts:
+  publish: dart pub publish
+  # To generate .g files:
+  build:runner:  dart run build_runner watch --delete-conflicting-outputs
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
@@ -16,8 +21,8 @@ dependencies:
 
   yaml: ^3.1.1
   checked_yaml: ^2.0.1
-  mek_data_class: ^0.2.0
-  json_annotation: ^4.7.0
+  mek_data_class: ^1.0.1
+  json_annotation: ^4.8.0
   glob: ^2.1.0
 
   pubspec: ^2.2.0
@@ -28,12 +33,12 @@ dev_dependencies:
 
   test: ^1.21.6
 
-  # To generate .g files:
-  # dart run build_runner build --delete-conflicting-outputs
-  # dart run build_runner watch --delete-conflicting-outputs
-  build_runner: ^2.3.0
-  mek_data_class_generator: ^0.2.0
-  json_serializable: ^6.5.1
+  build_runner: ^2.3.3
+  mek_data_class_generator: ^1.1.1
+  json_serializable: ^6.6.1
+
+executables:
+  index_generator:
 
 index_generator:
   exclude:
@@ -45,6 +50,3 @@ index_generator:
       docs: |
         Automatically generate index / barrel / library files
         with all the export needed for your library.
-
-executables:
-  index_generator: 

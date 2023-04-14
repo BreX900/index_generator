@@ -6,31 +6,38 @@ part of 'library_settings.dart';
 // DataClassGenerator
 // **************************************************************************
 
-// ignore_for_file: annotate_overrides, unused_element
-
 mixin _$LibrarySettings {
   LibrarySettings get _self => this as LibrarySettings;
-
-  Iterable<Object?> get _props sync* {
-    yield _self.dirPath;
-    yield _self.fileName;
-    yield _self.disclaimer;
-    yield _self.comments;
-    yield _self.docs;
-    yield _self.name;
-    yield _self.exports;
-    yield _self.include;
-    yield _self.exclude;
-  }
-
+  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is _$LibrarySettings &&
+      other is LibrarySettings &&
           runtimeType == other.runtimeType &&
-          DataClass.$equals(_props, other._props);
+          _self.dirPath == other.dirPath &&
+          _self.fileName == other.fileName &&
+          _self.disclaimer == other.disclaimer &&
+          _self.comments == other.comments &&
+          _self.docs == other.docs &&
+          _self.name == other.name &&
+          $listEquality.equals(_self.exports, other.exports) &&
+          $listEquality.equals(_self.include, other.include) &&
+          $listEquality.equals(_self.exclude, other.exclude);
+  @override
+  int get hashCode {
+    var hashCode = 0;
+    hashCode = $hashCombine(hashCode, _self.dirPath.hashCode);
+    hashCode = $hashCombine(hashCode, _self.fileName.hashCode);
+    hashCode = $hashCombine(hashCode, _self.disclaimer.hashCode);
+    hashCode = $hashCombine(hashCode, _self.comments.hashCode);
+    hashCode = $hashCombine(hashCode, _self.docs.hashCode);
+    hashCode = $hashCombine(hashCode, _self.name.hashCode);
+    hashCode = $hashCombine(hashCode, $listEquality.hash(_self.exports));
+    hashCode = $hashCombine(hashCode, $listEquality.hash(_self.include));
+    hashCode = $hashCombine(hashCode, $listEquality.hash(_self.exclude));
+    return $hashFinish(hashCode);
+  }
 
-  int get hashCode => Object.hashAll(_props);
-
+  @override
   String toString() => (ClassToString('LibrarySettings')
         ..add('dirPath', _self.dirPath)
         ..add('fileName', _self.fileName)
@@ -46,21 +53,24 @@ mixin _$LibrarySettings {
 
 mixin _$ExportSettings {
   ExportSettings get _self => this as ExportSettings;
-
-  Iterable<Object?> get _props sync* {
-    yield _self.package;
-    yield _self.show;
-    yield _self.hide;
-  }
-
+  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is _$ExportSettings &&
+      other is ExportSettings &&
           runtimeType == other.runtimeType &&
-          DataClass.$equals(_props, other._props);
+          _self.package == other.package &&
+          $listEquality.equals(_self.show, other.show) &&
+          $listEquality.equals(_self.hide, other.hide);
+  @override
+  int get hashCode {
+    var hashCode = 0;
+    hashCode = $hashCombine(hashCode, _self.package.hashCode);
+    hashCode = $hashCombine(hashCode, $listEquality.hash(_self.show));
+    hashCode = $hashCombine(hashCode, $listEquality.hash(_self.hide));
+    return $hashFinish(hashCode);
+  }
 
-  int get hashCode => Object.hashAll(_props);
-
+  @override
   String toString() => (ClassToString('ExportSettings')
         ..add('package', _self.package)
         ..add('show', _self.show)

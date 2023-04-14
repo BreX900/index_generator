@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.4.0
+- chore: Update dependencies
+- feat: export `index_generator` executable
+
 ## 3.3.3
 - Revert wrong `defaultName` keyword to `default_name` in yaml file
 

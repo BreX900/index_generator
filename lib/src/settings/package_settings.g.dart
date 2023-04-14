@@ -6,47 +6,52 @@ part of 'package_settings.dart';
 // DataClassGenerator
 // **************************************************************************
 
-// ignore_for_file: annotate_overrides, unused_element
-
 mixin _$ProjectSettings {
   ProjectSettings get _self => this as ProjectSettings;
-
-  Iterable<Object?> get _props sync* {
-    yield _self.name;
-  }
-
+  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is _$ProjectSettings &&
+      other is ProjectSettings &&
           runtimeType == other.runtimeType &&
-          DataClass.$equals(_props, other._props);
+          _self.name == other.name;
+  @override
+  int get hashCode {
+    var hashCode = 0;
+    hashCode = $hashCombine(hashCode, _self.name.hashCode);
+    return $hashFinish(hashCode);
+  }
 
-  int get hashCode => Object.hashAll(_props);
-
+  @override
   String toString() =>
       (ClassToString('ProjectSettings')..add('name', _self.name)).toString();
 }
 
 mixin _$PackageSettings {
   PackageSettings get _self => this as PackageSettings;
-
-  Iterable<Object?> get _props sync* {
-    yield _self.lineBreak;
-    yield _self.pageWidth;
-    yield _self.defaultFileName;
-    yield _self.include;
-    yield _self.exclude;
-    yield _self.libraries;
-  }
-
+  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is _$PackageSettings &&
+      other is PackageSettings &&
           runtimeType == other.runtimeType &&
-          DataClass.$equals(_props, other._props);
+          _self.lineBreak == other.lineBreak &&
+          _self.pageWidth == other.pageWidth &&
+          _self.defaultFileName == other.defaultFileName &&
+          $listEquality.equals(_self.include, other.include) &&
+          $listEquality.equals(_self.exclude, other.exclude) &&
+          $listEquality.equals(_self.libraries, other.libraries);
+  @override
+  int get hashCode {
+    var hashCode = 0;
+    hashCode = $hashCombine(hashCode, _self.lineBreak.hashCode);
+    hashCode = $hashCombine(hashCode, _self.pageWidth.hashCode);
+    hashCode = $hashCombine(hashCode, _self.defaultFileName.hashCode);
+    hashCode = $hashCombine(hashCode, $listEquality.hash(_self.include));
+    hashCode = $hashCombine(hashCode, $listEquality.hash(_self.exclude));
+    hashCode = $hashCombine(hashCode, $listEquality.hash(_self.libraries));
+    return $hashFinish(hashCode);
+  }
 
-  int get hashCode => Object.hashAll(_props);
-
+  @override
   String toString() => (ClassToString('PackageSettings')
         ..add('lineBreak', _self.lineBreak)
         ..add('pageWidth', _self.pageWidth)
@@ -59,19 +64,20 @@ mixin _$PackageSettings {
 
 mixin _$GeneralSettings {
   GeneralSettings get _self => this as GeneralSettings;
-
-  Iterable<Object?> get _props sync* {
-    yield _self.indexGenerator;
-  }
-
+  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is _$GeneralSettings &&
+      other is GeneralSettings &&
           runtimeType == other.runtimeType &&
-          DataClass.$equals(_props, other._props);
+          _self.indexGenerator == other.indexGenerator;
+  @override
+  int get hashCode {
+    var hashCode = 0;
+    hashCode = $hashCombine(hashCode, _self.indexGenerator.hashCode);
+    return $hashFinish(hashCode);
+  }
 
-  int get hashCode => Object.hashAll(_props);
-
+  @override
   String toString() => (ClassToString('GeneralSettings')
         ..add('indexGenerator', _self.indexGenerator))
       .toString();

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.4.1
+- chore: update dart sdk constraints
+
+## 3.4.0+1
+- docs: add topics to pubspec.yaml
+
 ## 3.4.0
 - chore: Update dependencies
 - feat: export `index_generator` executable

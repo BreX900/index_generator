@@ -2,6 +2,7 @@
 /// with all the export needed for your library.
 library index_generator;
 
+export 'src/builder.dart';
 export 'src/converters.dart';
 export 'src/dart_code/dart_export.dart';
 export 'src/index_generator.dart';

@@ -29,3 +29,4 @@ builders:
     build_extensions: { '$package$': ['.dart'] }
     auto_apply: root_package
     build_to: source
+    required_inputs: ['.gen.dart']

@@ -1,6 +1,6 @@
 name: index_generator
 description: Automatically generate index / barrel / library files with all the export needed for your library.
-version: 4.0.0
+version: 4.0.1
 homepage: https://github.com/BreX900/index_generator
 topics:
   - library

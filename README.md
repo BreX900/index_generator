@@ -14,8 +14,8 @@ index_generator:
   exclude:
     - '**.g.dart'
   # Define the paths of the folders in which to generate the index files
-  indexes:
-    - path: lib
+  libraries:
+    - directory_path: lib
 ```
 
 3. You can generate index files with: `<dart|flutter> pub global run index_generator`
@@ -27,13 +27,13 @@ index_generator:
 ```yaml
 index_generator:
   # You can define the default name of the index file
-  default_name: barrel
+  default_file_name: barrel
   # You can define general filters for all indexes
   exclude:
     - '**.g.dart'
     - '{_,**/_}*.dart'
-  indexes:
-    - path: lib
+  libraries:
+    - directory_path: lib
       # You can define specific filters for this index
       include:
         # You can define specific export folders paths
@@ -45,9 +45,9 @@ index_generator:
             - ArgResults
           hide:
             - ArgParser
-    - path: generator
+    - directory_path: generator
       # You can define the name of the index file
-      name: main
+      file_name: main
       # Disable/Enable the generated code disclaimer
       disclaimer: false
       # Comments added on the generated file, like copyright
@@ -58,13 +58,13 @@ index_generator:
         Automatically generate index / barrel / library files
         with all the export needed for your library.
       # You can define the name of the library to use within the index
-      library: index_generator
+      name: index_generator
 ```
 
-- **path**: Path in which to create the index file. All filters will get the relative path from this directory
-- **name**: Prioritize ownership in folders, otherwise it will use the one defined in the generator with `default_name` key.
+- **directory_path**: Path in which to create the index file. All filters will get the relative path from this directory
+- **file_name**: Prioritize ownership in folders, otherwise it will use the one defined in the generator with `default_file_name` key.
   If it is missing, if the folder is `lib` it will use the package name otherwise the folder name
-- **library**: The name of the library used in the index dart file by the `library` keyword
+- **name**: The name of the library used in the index dart file by the `library` keyword
 - **include** | **exclude**: You can define filters that exclude or include files to be included in the index. The filters are passed paths relative to the 
   index file. You can use [Glob](https://pub.dev/packages/glob) expressions.
 - **exports**: You can define specific export dart packages in index file. 

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 4.0.1
+- docs: updated documentation
+
 ## 4.0.0
 - refactor!: In the `index_generator` field, `default_name` has been renamed to `default_file_name` and `indexes` to
   `libraries`

@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 4.0.0
+- refactor!: In the `index_generator` field, `default_name` has been renamed to `default_file_name` and `indexes` to
+  `libraries`
+- refactor!: In the `indexes`/`libraries` field, `path` has been renamed to `directory_path`, `name` to `file_name` and
+  `library` to `name`
+- feat!: The default library name is now empty. You can enter the library name in the library generation settings using 
+  the `name` field
+- build: bumped `dart_style` dependency to `^3.0.0` 
+- build: bumped dart sdk constraints to `^3.0.0`
+
 ## 3.4.1
 - chore: update dart sdk constraints
 

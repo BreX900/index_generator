@@ -3,40 +3,46 @@ import 'dart:io';
 import 'package:dart_style/dart_style.dart';
 import 'package:index_generator/src/_utils.dart';
 import 'package:index_generator/src/dart_code/dart_export.dart';
+import 'package:index_generator/src/settings/dart.dart';
 import 'package:index_generator/src/settings/library_settings.dart';
 import 'package:index_generator/src/settings/package_settings.dart';
 import 'package:path/path.dart' as path;
+import 'package:pub_semver/pub_semver.dart';
 
 class IndexGenerator {
-  final ProjectSettings project;
+  final Pubspec pubspec;
+  final AnalysisOptions analysisOptions;
   final PackageSettings package;
-  final LibrarySettings index;
+  final LibrarySettings library;
 
   final Directory indexFolder;
   final File indexFile;
 
   IndexGenerator._({
-    required this.project,
+    required this.pubspec,
+    required this.analysisOptions,
     required this.package,
-    required this.index,
+    required this.library,
     required this.indexFolder,
     required this.indexFile,
   });
 
   factory IndexGenerator.from(
-    ProjectSettings project,
+    Pubspec pubspec,
+    AnalysisOptions? analysisOptions,
     PackageSettings package,
     LibrarySettings index,
   ) {
     final indexPath = path.join(
-      index.dirPath,
-      '${index.resolveFileName(project.name, package.defaultFileName)}.dart',
+      index.directoryPath,
+      '${index.resolveFileName(pubspec.name, package.defaultFileName)}.dart',
     );
     return IndexGenerator._(
-      project: project,
+      pubspec: pubspec,
+      analysisOptions: analysisOptions ?? const AnalysisOptions(),
       package: package,
-      index: index,
-      indexFolder: Directory(index.dirPath),
+      library: index,
+      indexFolder: Directory(index.directoryPath),
       indexFile: File(indexPath),
     );
   }
@@ -62,10 +68,10 @@ class IndexGenerator {
     return unixFilePath;
   }
 
-  /// Filter [files] with [config] and [index] filters
+  /// Filter [files] with [config] and [library] filters
   Iterable<File> filterFiles(Iterable<File> files) {
-    final include = [...package.include, ...index.include];
-    final exclude = [...package.exclude, ...index.exclude];
+    final include = [...package.include, ...library.include];
+    final exclude = [...package.exclude, ...library.exclude];
 
     return files.where((file) {
       final filePath = getRelativeUnixPath(file);
@@ -101,17 +107,18 @@ class IndexGenerator {
 
   /// Generate a index file content
   Iterable<String> generate() {
-    final comments = Utils.parseTextLines(index.comments);
-    final docs = Utils.parseTextLines(index.docs);
+    final comments = Utils.parseTextLines(library.comments);
+    final docs = Utils.parseTextLines(library.docs);
 
-    final externalExports = packagesToExports(index.exports).toList()..sort();
+    final externalExports = packagesToExports(library.exports).toList()..sort();
 
     final internalFiles = findFiles();
     final internalFilteredFiles = filterFiles(internalFiles);
     final internalExports = fileToExport(internalFilteredFiles).toList()..sort();
 
+    final name = library.name;
     return [
-      if (index.disclaimer) ...[
+      if (library.disclaimer) ...[
         '// GENERATED CODE - DO NOT MODIFY BY HAND',
         '',
       ],
@@ -121,7 +128,7 @@ class IndexGenerator {
       ],
       if (docs.isNotEmpty)
         for (final line in docs) '/// $line',
-      'library ${index.resolveLibraryName(project.name)};',
+      'library${name != null ? ' $name' : ''};',
       '',
       if (externalExports.isNotEmpty) ...[
         ...externalExports,
@@ -134,9 +141,11 @@ class IndexGenerator {
 
   /// Create a index file content
   Future<void> create() async {
+    final languageVersion = pubspec.environment.sdk as VersionRange;
     final formatter = DartFormatter(
+      languageVersion: languageVersion.min!,
       lineEnding: package.lineBreak,
-      pageWidth: package.pageWidth,
+      pageWidth: package.pageWidth ?? analysisOptions.formatter.pageWidth,
     );
 
     final content = formatter.format(generate().join(package.lineBreak));

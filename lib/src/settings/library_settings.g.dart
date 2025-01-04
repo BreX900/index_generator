@@ -13,7 +13,7 @@ mixin _$LibrarySettings {
       identical(this, other) ||
       other is LibrarySettings &&
           runtimeType == other.runtimeType &&
-          _self.dirPath == other.dirPath &&
+          _self.directoryPath == other.directoryPath &&
           _self.fileName == other.fileName &&
           _self.disclaimer == other.disclaimer &&
           _self.comments == other.comments &&
@@ -25,7 +25,7 @@ mixin _$LibrarySettings {
   @override
   int get hashCode {
     var hashCode = 0;
-    hashCode = $hashCombine(hashCode, _self.dirPath.hashCode);
+    hashCode = $hashCombine(hashCode, _self.directoryPath.hashCode);
     hashCode = $hashCombine(hashCode, _self.fileName.hashCode);
     hashCode = $hashCombine(hashCode, _self.disclaimer.hashCode);
     hashCode = $hashCombine(hashCode, _self.comments.hashCode);
@@ -39,7 +39,7 @@ mixin _$LibrarySettings {
 
   @override
   String toString() => (ClassToString('LibrarySettings')
-        ..add('dirPath', _self.dirPath)
+        ..add('directoryPath', _self.directoryPath)
         ..add('fileName', _self.fileName)
         ..add('disclaimer', _self.disclaimer)
         ..add('comments', _self.comments)
@@ -86,13 +86,27 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
       'LibrarySettings',
       json,
       ($checkedConvert) {
+        $checkKeys(
+          json,
+          allowedKeys: const [
+            'directory_path',
+            'file_name',
+            'disclaimer',
+            'comments',
+            'docs',
+            'name',
+            'exports',
+            'include',
+            'exclude'
+          ],
+        );
         final val = LibrarySettings(
-          dirPath: $checkedConvert('path', (v) => v as String),
-          fileName: $checkedConvert('name', (v) => v as String?),
+          directoryPath: $checkedConvert('directory_path', (v) => v as String),
+          fileName: $checkedConvert('file_name', (v) => v as String?),
           disclaimer: $checkedConvert('disclaimer', (v) => v as bool? ?? true),
           comments: $checkedConvert('comments', (v) => v as String? ?? ''),
           docs: $checkedConvert('docs', (v) => v as String? ?? ''),
-          name: $checkedConvert('library', (v) => v as String?),
+          name: $checkedConvert('name', (v) => v as String?),
           exports: $checkedConvert(
               'exports',
               (v) =>
@@ -120,9 +134,8 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
         return val;
       },
       fieldKeyMap: const {
-        'dirPath': 'path',
-        'fileName': 'name',
-        'name': 'library'
+        'directoryPath': 'directory_path',
+        'fileName': 'file_name'
       },
     );
 
@@ -130,6 +143,10 @@ ExportSettings _$ExportSettingsFromJson(Map json) => $checkedCreate(
       'ExportSettings',
       json,
       ($checkedConvert) {
+        $checkKeys(
+          json,
+          allowedKeys: const ['package', 'show', 'hide'],
+        );
         final val = ExportSettings(
           package: $checkedConvert('package', (v) => v as String),
           show: $checkedConvert(

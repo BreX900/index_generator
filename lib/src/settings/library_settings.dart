@@ -11,11 +11,9 @@ part 'library_settings.g.dart';
 @GlobJsonConverter()
 class LibrarySettings with _$LibrarySettings {
   /// Folder path to create a index file
-  @JsonKey(name: 'path')
-  final String dirPath;
+  final String directoryPath;
 
   /// File name with extension
-  @JsonKey(name: 'name')
   final String? fileName;
 
   /// Adds the generated code disclaimer
@@ -28,7 +26,6 @@ class LibrarySettings with _$LibrarySettings {
   final String docs;
 
   /// Library name
-  @JsonKey(name: 'library')
   final String? name;
 
   /// List of export packages
@@ -41,7 +38,7 @@ class LibrarySettings with _$LibrarySettings {
   final List<Glob> exclude;
 
   const LibrarySettings({
-    required this.dirPath,
+    required this.directoryPath,
     this.fileName,
     this.disclaimer = true,
     this.comments = '',
@@ -56,7 +53,7 @@ class LibrarySettings with _$LibrarySettings {
     final fileName = this.fileName;
     if (fileName != null) return fileName;
 
-    final dirName = p.basename(dirPath);
+    final dirName = p.basename(directoryPath);
     if (dirName == 'lib') return projectName;
 
     if (defaultFileName != null) return defaultFileName;
@@ -64,20 +61,7 @@ class LibrarySettings with _$LibrarySettings {
     return dirName;
   }
 
-  String resolveLibraryName(String projectName) {
-    final name = this.name;
-    if (name != null) return name;
-
-    final fileName = this.fileName;
-    if (fileName != null) return fileName;
-
-    final dirName = p.basename(dirPath);
-    if (dirName == 'lib') return projectName;
-
-    return dirName;
-  }
-
-  factory LibrarySettings.fromJson(Map data) => _$LibrarySettingsFromJson(data);
+  factory LibrarySettings.fromJson(Map map) => _$LibrarySettingsFromJson(map);
 }
 
 @DataClass()

@@ -6,26 +6,6 @@ part of 'package_settings.dart';
 // DataClassGenerator
 // **************************************************************************
 
-mixin _$ProjectSettings {
-  ProjectSettings get _self => this as ProjectSettings;
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ProjectSettings &&
-          runtimeType == other.runtimeType &&
-          _self.name == other.name;
-  @override
-  int get hashCode {
-    var hashCode = 0;
-    hashCode = $hashCombine(hashCode, _self.name.hashCode);
-    return $hashFinish(hashCode);
-  }
-
-  @override
-  String toString() =>
-      (ClassToString('ProjectSettings')..add('name', _self.name)).toString();
-}
-
 mixin _$PackageSettings {
   PackageSettings get _self => this as PackageSettings;
   @override
@@ -87,26 +67,27 @@ mixin _$GeneralSettings {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProjectSettings _$ProjectSettingsFromJson(Map json) => $checkedCreate(
-      'ProjectSettings',
-      json,
-      ($checkedConvert) {
-        final val = ProjectSettings(
-          name: $checkedConvert('name', (v) => v as String),
-        );
-        return val;
-      },
-    );
-
 PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
       'PackageSettings',
       json,
       ($checkedConvert) {
+        $checkKeys(
+          json,
+          allowedKeys: const [
+            'line_break',
+            'page_width',
+            'default_file_name',
+            'include',
+            'exclude',
+            'libraries'
+          ],
+        );
         final val = PackageSettings(
           lineBreak:
               $checkedConvert('line_break', (v) => v as String? ?? '\u{000A}'),
-          pageWidth: $checkedConvert('page_width', (v) => v as int? ?? 80),
-          defaultFileName: $checkedConvert('default_name', (v) => v as String?),
+          pageWidth: $checkedConvert('page_width', (v) => (v as num?)?.toInt()),
+          defaultFileName:
+              $checkedConvert('default_file_name', (v) => v as String?),
           include: $checkedConvert(
               'include',
               (v) =>
@@ -124,7 +105,7 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
                       .toList() ??
                   const []),
           libraries: $checkedConvert(
-              'indexes',
+              'libraries',
               (v) => (v as List<dynamic>)
                   .map((e) => LibrarySettings.fromJson(e as Map))
                   .toList()),
@@ -134,8 +115,7 @@ PackageSettings _$PackageSettingsFromJson(Map json) => $checkedCreate(
       fieldKeyMap: const {
         'lineBreak': 'line_break',
         'pageWidth': 'page_width',
-        'defaultFileName': 'default_name',
-        'libraries': 'indexes'
+        'defaultFileName': 'default_file_name'
       },
     );
 

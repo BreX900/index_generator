@@ -3,7 +3,7 @@
 /// This is
 ///
 /// a docs.
-library docs;
+library;
 
 export 'custom_index_name.dart';
 export 'example.dart';

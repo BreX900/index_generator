@@ -4,6 +4,7 @@ import 'package:args/args.dart';
 import 'package:checked_yaml/checked_yaml.dart';
 import 'package:console/console.dart';
 import 'package:index_generator/index_generator.dart';
+import 'package:index_generator/src/settings/dart.dart';
 
 final argsParser = ArgParser()
   ..addOption(
@@ -31,18 +32,20 @@ void main(List<String> rawArgs) async {
 
   Print.workInfo('Initializing work space...');
 
-  final project = await ToolBox.loadYaml(toolBox.projectYaml, ProjectSettings.fromJson);
+  final pubspec = await ToolBox.loadYaml(toolBox.projectYaml, Pubspec.fromJson);
+  final analysisOptions =
+      await ToolBox.tryLoadYaml(toolBox.analysisOptions, AnalysisOptions.fromJson);
   final settingsFile = await toolBox.findYaml(settingsPath);
   Print.verbose('Settings file: ${settingsFile.path}');
   final settings = await ToolBox.loadYaml(settingsFile, PackageSettings.fromYaml);
 
   if (canVerbose) {
-    Print.verbose(project);
+    Print.verbose(pubspec);
     Print.verbose(settings);
   }
 
   final generators = settings.libraries.map((library) {
-    return IndexGenerator.from(project, settings, library);
+    return IndexGenerator.from(pubspec, analysisOptions, settings, library);
   }).toList();
 
   Print.workInfo('Initialized work space!');
@@ -59,6 +62,7 @@ void main(List<String> rawArgs) async {
 
 class ToolBox {
   final File projectYaml = File('pubspec.yaml');
+  final File analysisOptions = File('analysis_options.yaml');
   final File packageYaml;
 
   ToolBox({required String name}) : packageYaml = File('$name.yaml');
@@ -72,10 +76,16 @@ class ToolBox {
   }
 
   static Future<T> loadYaml<T>(File file, T Function(Map map) from) async {
-    if (!await file.exists()) {
+    final yaml = await tryLoadYaml(file, from);
+    if (yaml == null) {
       Print.error('Not find ${file.path} file in this project');
       exit(-1);
     }
+    return yaml;
+  }
+
+  static Future<T?> tryLoadYaml<T>(File file, T Function(Map map) from) async {
+    if (!await file.exists()) return null;
     try {
       return checkedYamlDecode(
         await file.readAsString(),

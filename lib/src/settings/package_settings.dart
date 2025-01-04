@@ -8,30 +8,18 @@ part 'package_settings.g.dart';
 
 @DataClass()
 @JsonSerializable()
-class ProjectSettings with _$ProjectSettings {
-  final String name;
-
-  const ProjectSettings({required this.name});
-
-  factory ProjectSettings.fromJson(Map map) => _$ProjectSettingsFromJson(map);
-}
-
-@DataClass()
-@JsonSerializable()
 @GlobJsonConverter()
 class PackageSettings with _$PackageSettings {
   final String lineBreak;
-  final int pageWidth;
-  @JsonKey(name: 'default_name')
+  final int? pageWidth;
   final String? defaultFileName;
   final List<Glob> include;
   final List<Glob> exclude;
-  @JsonKey(name: 'indexes')
   final List<LibrarySettings> libraries;
 
   const PackageSettings({
     this.lineBreak = '\u{000A}',
-    this.pageWidth = 80,
+    this.pageWidth,
     required this.defaultFileName,
     this.include = const [],
     this.exclude = const [],
@@ -44,7 +32,7 @@ class PackageSettings with _$PackageSettings {
 }
 
 @DataClass()
-@JsonSerializable()
+@JsonSerializable(disallowUnrecognizedKeys: false)
 class GeneralSettings with _$GeneralSettings {
   final PackageSettings indexGenerator;
 

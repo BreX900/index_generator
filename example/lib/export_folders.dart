@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-library export_folders;
+library;
 
 export 'package:args/args.dart' show ArgResults;
 export 'package:path/path.dart'

@@ -126,10 +126,12 @@ class IndexGenerator {
         for (final line in comments) '// $line',
         '',
       ],
-      if (docs.isNotEmpty)
-        for (final line in docs) '/// $line',
-      'library${name != null ? ' $name' : ''};',
-      '',
+      if (library.includeLibrary) ...[
+        if (docs.isNotEmpty)
+          for (final line in docs) '/// $line',
+        'library${name != null ? ' $name' : ''};',
+        '',
+      ],
       if (externalExports.isNotEmpty) ...[
         ...externalExports,
         '',

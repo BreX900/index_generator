@@ -50,10 +50,13 @@ index_generator:
       file_name: main
       # Disable/Enable the generated code disclaimer
       disclaimer: false
+      # Include/Exclude the library keyword in generated file
+      include_library: true
       # Comments added on the generated file, like copyright
       comments: |
         Copyright (c) 2020 BreX900
       # Documentation added on the generated file above the library name
+      # Note: docs are only included when include_library is true
       docs: | 
         Automatically generate index / barrel / library files
         with all the export needed for your library.
@@ -65,6 +68,8 @@ index_generator:
 - **file_name**: Prioritize ownership in folders, otherwise it will use the one defined in the generator with `default_file_name` key.
   If it is missing, if the folder is `lib` it will use the package name otherwise the folder name
 - **name**: The name of the library used in the index dart file by the `library` keyword
+- **include_library**: Include or exclude the `library` keyword in the generated file. Defaults to `true`
+- **docs**: Documentation comments added above the library declaration. Only included when `include_library` is `true`
 - **include** | **exclude**: You can define filters that exclude or include files to be included in the index. The filters are passed paths relative to the 
   index file. You can use [Glob](https://pub.dev/packages/glob) expressions.
 - **exports**: You can define specific export dart packages in index file. 

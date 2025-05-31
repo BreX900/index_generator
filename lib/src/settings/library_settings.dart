@@ -19,6 +19,9 @@ class LibrarySettings with _$LibrarySettings {
   /// Adds the generated code disclaimer
   final bool disclaimer;
 
+  /// Include library keyword in generated file
+  final bool includeLibrary;
+
   /// Library comments (copyright)
   final String comments;
 
@@ -41,6 +44,7 @@ class LibrarySettings with _$LibrarySettings {
     required this.directoryPath,
     this.fileName,
     this.disclaimer = true,
+    this.includeLibrary = true,
     this.comments = '',
     this.docs = '',
     this.name,

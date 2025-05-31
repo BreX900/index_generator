@@ -16,6 +16,7 @@ mixin _$LibrarySettings {
           _self.directoryPath == other.directoryPath &&
           _self.fileName == other.fileName &&
           _self.disclaimer == other.disclaimer &&
+          _self.includeLibrary == other.includeLibrary &&
           _self.comments == other.comments &&
           _self.docs == other.docs &&
           _self.name == other.name &&
@@ -28,6 +29,7 @@ mixin _$LibrarySettings {
     hashCode = $hashCombine(hashCode, _self.directoryPath.hashCode);
     hashCode = $hashCombine(hashCode, _self.fileName.hashCode);
     hashCode = $hashCombine(hashCode, _self.disclaimer.hashCode);
+    hashCode = $hashCombine(hashCode, _self.includeLibrary.hashCode);
     hashCode = $hashCombine(hashCode, _self.comments.hashCode);
     hashCode = $hashCombine(hashCode, _self.docs.hashCode);
     hashCode = $hashCombine(hashCode, _self.name.hashCode);
@@ -42,6 +44,7 @@ mixin _$LibrarySettings {
         ..add('directoryPath', _self.directoryPath)
         ..add('fileName', _self.fileName)
         ..add('disclaimer', _self.disclaimer)
+        ..add('includeLibrary', _self.includeLibrary)
         ..add('comments', _self.comments)
         ..add('docs', _self.docs)
         ..add('name', _self.name)
@@ -92,6 +95,7 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
             'directory_path',
             'file_name',
             'disclaimer',
+            'include_library',
             'comments',
             'docs',
             'name',
@@ -104,6 +108,8 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
           directoryPath: $checkedConvert('directory_path', (v) => v as String),
           fileName: $checkedConvert('file_name', (v) => v as String?),
           disclaimer: $checkedConvert('disclaimer', (v) => v as bool? ?? true),
+          includeLibrary:
+              $checkedConvert('include_library', (v) => v as bool? ?? true),
           comments: $checkedConvert('comments', (v) => v as String? ?? ''),
           docs: $checkedConvert('docs', (v) => v as String? ?? ''),
           name: $checkedConvert('name', (v) => v as String?),
@@ -135,7 +141,8 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
       },
       fieldKeyMap: const {
         'directoryPath': 'directory_path',
-        'fileName': 'file_name'
+        'fileName': 'file_name',
+        'includeLibrary': 'include_library'
       },
     );
 

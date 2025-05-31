@@ -52,5 +52,24 @@ void main() {
         expect(actual, 'dir_name');
       });
     });
+
+    group('includeLibrary', () {
+      test('defaults to true', () {
+        final settings = LibrarySettings(
+          directoryPath: 'lib',
+        );
+
+        expect(settings.includeLibrary, isTrue);
+      });
+
+      test('can be set to false', () {
+        final settings = LibrarySettings(
+          directoryPath: 'lib',
+          includeLibrary: false,
+        );
+
+        expect(settings.includeLibrary, isFalse);
+      });
+    });
   });
 }

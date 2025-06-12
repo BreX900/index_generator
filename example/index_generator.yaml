@@ -1,18 +1,18 @@
 index_generator:
   page_width: 100
   exclude:
-    - '**.g.dart'
-    - '{_,**/_}*.dart'
-  indexes:
+    - "**.g.dart"
+    - "{_,**/_}*.dart"
+  libraries:
     # Default index and library name
-    - path: lib
+    - directory_path: lib
     # Custom index and library name
-    - path: lib
-      name: custom_index_name
-      library: custom_library_name
+    - directory_path: lib
+      file_name: custom_index_name
+      name: custom_library_name
     # Custom index and library name
-    - path: lib
-      name: export_folders
+    - directory_path: lib
+      file_name: export_folders
       include:
         - src/**
       exports:
@@ -25,11 +25,11 @@ index_generator:
             - basenameWithoutExtension
             - canonicalize
             - withoutExtension
-    - path: lib
-      name: docs
+    - directory_path: lib
+      file_name: docs
       disclaimer: false
       comments: This is a comments.
       docs: |
         This is
-        
+
         a docs.

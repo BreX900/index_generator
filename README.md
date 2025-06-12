@@ -83,6 +83,20 @@ index_generator:
 -h, --help 
 ```
 
+## Build runner 
+
+`index_generator` can be run via [build_runner](https://pub.dev/packages/build_runner). To do so, add the following dependancies:
+
+```yaml
+dev_dependencies:
+  build_runner: ^2.3.3
+  index_generator: ^3.5.0 
+```
+
+To generate use `<dart|flutter> pub run build_runner <build|watch>`
+
+
+
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker](https://github.com/BreX900/index_generator/issues).

@@ -25,6 +25,11 @@ index_generator:
             - basenameWithoutExtension
             - canonicalize
             - withoutExtension
+    # Custom output path example
+    - directory_path: lib/src
+      output_path: lib/generated
+      file_name: api_index
+      name: api_library
     - directory_path: lib
       file_name: docs
       disclaimer: false

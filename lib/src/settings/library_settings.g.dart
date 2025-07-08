@@ -14,6 +14,7 @@ mixin _$LibrarySettings {
       other is LibrarySettings &&
           runtimeType == other.runtimeType &&
           _self.directoryPath == other.directoryPath &&
+          _self.outputPath == other.outputPath &&
           _self.fileName == other.fileName &&
           _self.disclaimer == other.disclaimer &&
           _self.includeLibrary == other.includeLibrary &&
@@ -28,6 +29,7 @@ mixin _$LibrarySettings {
   int get hashCode {
     var hashCode = 0;
     hashCode = $hashCombine(hashCode, _self.directoryPath.hashCode);
+    hashCode = $hashCombine(hashCode, _self.outputPath.hashCode);
     hashCode = $hashCombine(hashCode, _self.fileName.hashCode);
     hashCode = $hashCombine(hashCode, _self.disclaimer.hashCode);
     hashCode = $hashCombine(hashCode, _self.includeLibrary.hashCode);
@@ -44,6 +46,7 @@ mixin _$LibrarySettings {
   @override
   String toString() => (ClassToString('LibrarySettings')
         ..add('directoryPath', _self.directoryPath)
+        ..add('outputPath', _self.outputPath)
         ..add('fileName', _self.fileName)
         ..add('disclaimer', _self.disclaimer)
         ..add('includeLibrary', _self.includeLibrary)
@@ -96,6 +99,7 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
           json,
           allowedKeys: const [
             'directory_path',
+            'output_path',
             'file_name',
             'disclaimer',
             'include_library',
@@ -110,6 +114,7 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
         );
         final val = LibrarySettings(
           directoryPath: $checkedConvert('directory_path', (v) => v as String),
+          outputPath: $checkedConvert('output_path', (v) => v as String?),
           fileName: $checkedConvert('file_name', (v) => v as String?),
           disclaimer: $checkedConvert('disclaimer', (v) => v as bool? ?? true),
           includeLibrary:
@@ -147,6 +152,7 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
       },
       fieldKeyMap: const {
         'directoryPath': 'directory_path',
+        'outputPath': 'output_path',
         'fileName': 'file_name',
         'includeLibrary': 'include_library',
         'usePackageExports': 'use_package_exports'

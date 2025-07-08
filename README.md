@@ -1,7 +1,9 @@
 # Index Generator
+
 Automatically generate index / barrel files with all the exports needed for your library.
 
 ### Stable release
+
 There will be no more breaking changes
 
 ## Usage
@@ -9,10 +11,11 @@ There will be no more breaking changes
 1. Activate: `dart/flutter pub global activate index_generator`
 
 2. Create `index_generator.yaml` file or add in your `pubspec.yaml` file:
+
 ```yaml
 index_generator:
   exclude:
-    - '**.g.dart'
+    - "**.g.dart"
   # Define the paths of the folders in which to generate the index files
   libraries:
     - directory_path: lib
@@ -30,14 +33,14 @@ index_generator:
   default_file_name: barrel
   # You can define general filters for all indexes
   exclude:
-    - '**.g.dart'
-    - '{_,**/_}*.dart'
+    - "**.g.dart"
+    - "{_,**/_}*.dart"
   libraries:
     - directory_path: lib
       # You can define specific filters for this index
       include:
         # You can define specific export folders paths
-        - 'src/**'
+        - "src/**"
       # You can define specific export dart packages in index file.
       exports:
         - package: package:args/args.dart
@@ -57,11 +60,13 @@ index_generator:
         Copyright (c) 2020 BreX900
       # Documentation added on the generated file above the library name
       # Note: docs are only included when include_library is true
-      docs: | 
+      docs: |
         Automatically generate index / barrel / library files
         with all the export needed for your library.
       # You can define the name of the library to use within the index
       name: index_generator
+      # Use package-style exports for internal files (e.g., 'package:app/main.dart' instead of 'main.dart')
+      use_package_exports: true
 ```
 
 - **directory_path**: Path in which to create the index file. All filters will get the relative path from this directory
@@ -70,32 +75,34 @@ index_generator:
 - **name**: The name of the library used in the index dart file by the `library` keyword
 - **include_library**: Include or exclude the `library` keyword in the generated file. Defaults to `true`
 - **docs**: Documentation comments added above the library declaration. Only included when `include_library` is `true`
-- **include** | **exclude**: You can define filters that exclude or include files to be included in the index. The filters are passed paths relative to the 
+- **include** | **exclude**: You can define filters that exclude or include files to be included in the index. The filters are passed paths relative to the
   index file. You can use [Glob](https://pub.dev/packages/glob) expressions.
-- **exports**: You can define specific export dart packages in index file. 
+- **exports**: You can define specific export dart packages in index file.
   You can use `package` to export a dart file package or dart core library.
+- **use_package_exports**: When enabled, generates package-style exports for internal files (e.g., `'package:app/main.dart'` instead of `'main.dart'`).
+  This is useful for libraries that want to ensure consistent import paths. Defaults to `false`.
 
 ## Command
+
 `--help` command output:
+
 ```
 -s, --settings=<Define a yaml file path.>    If not present use the "index_generator.yaml" file if it exists otherwise use the "pubspec.yaml" file.
 -v, --[no-]verbose                           Print verbose logs
--h, --help 
+-h, --help
 ```
 
-## Build runner 
+## Build runner
 
 `index_generator` can be run via [build_runner](https://pub.dev/packages/build_runner). To do so, add the following dependancies:
 
 ```yaml
 dev_dependencies:
   build_runner: ^2.3.3
-  index_generator: ^3.5.0 
+  index_generator: ^3.5.0
 ```
 
 To generate use `<dart|flutter> pub run build_runner <build|watch>`
-
-
 
 ## Features and bugs
 

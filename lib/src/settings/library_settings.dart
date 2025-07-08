@@ -40,6 +40,9 @@ class LibrarySettings with _$LibrarySettings {
   /// Black filters
   final List<Glob> exclude;
 
+  /// Use package-style exports for internal files (e.g., 'package:app/main.dart' instead of 'main.dart')
+  final bool usePackageExports;
+
   const LibrarySettings({
     required this.directoryPath,
     this.fileName,
@@ -51,6 +54,7 @@ class LibrarySettings with _$LibrarySettings {
     this.exports = const <ExportSettings>[],
     this.include = const <Glob>[],
     this.exclude = const <Glob>[],
+    this.usePackageExports = false,
   });
 
   String resolveFileName(String projectName, String? defaultFileName) {

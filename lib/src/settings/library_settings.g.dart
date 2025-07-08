@@ -22,7 +22,8 @@ mixin _$LibrarySettings {
           _self.name == other.name &&
           $listEquality.equals(_self.exports, other.exports) &&
           $listEquality.equals(_self.include, other.include) &&
-          $listEquality.equals(_self.exclude, other.exclude);
+          $listEquality.equals(_self.exclude, other.exclude) &&
+          _self.usePackageExports == other.usePackageExports;
   @override
   int get hashCode {
     var hashCode = 0;
@@ -36,6 +37,7 @@ mixin _$LibrarySettings {
     hashCode = $hashCombine(hashCode, $listEquality.hash(_self.exports));
     hashCode = $hashCombine(hashCode, $listEquality.hash(_self.include));
     hashCode = $hashCombine(hashCode, $listEquality.hash(_self.exclude));
+    hashCode = $hashCombine(hashCode, _self.usePackageExports.hashCode);
     return $hashFinish(hashCode);
   }
 
@@ -50,7 +52,8 @@ mixin _$LibrarySettings {
         ..add('name', _self.name)
         ..add('exports', _self.exports)
         ..add('include', _self.include)
-        ..add('exclude', _self.exclude))
+        ..add('exclude', _self.exclude)
+        ..add('usePackageExports', _self.usePackageExports))
       .toString();
 }
 
@@ -101,7 +104,8 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
             'name',
             'exports',
             'include',
-            'exclude'
+            'exclude',
+            'use_package_exports'
           ],
         );
         final val = LibrarySettings(
@@ -136,13 +140,16 @@ LibrarySettings _$LibrarySettingsFromJson(Map json) => $checkedCreate(
                           const GlobJsonConverter().fromJson(e as String))
                       .toList() ??
                   const <Glob>[]),
+          usePackageExports: $checkedConvert(
+              'use_package_exports', (v) => v as bool? ?? false),
         );
         return val;
       },
       fieldKeyMap: const {
         'directoryPath': 'directory_path',
         'fileName': 'file_name',
-        'includeLibrary': 'include_library'
+        'includeLibrary': 'include_library',
+        'usePackageExports': 'use_package_exports'
       },
     );
 

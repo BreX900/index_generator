@@ -13,6 +13,10 @@ class LibrarySettings with _$LibrarySettings {
   /// Folder path to create a index file
   final String directoryPath;
 
+  /// Custom output path for the generated index file (optional)
+  /// If not specified, the file will be created in the directoryPath
+  final String? outputPath;
+
   /// File name with extension
   final String? fileName;
 
@@ -45,6 +49,7 @@ class LibrarySettings with _$LibrarySettings {
 
   const LibrarySettings({
     required this.directoryPath,
+    this.outputPath,
     this.fileName,
     this.disclaimer = true,
     this.includeLibrary = true,
@@ -67,6 +72,11 @@ class LibrarySettings with _$LibrarySettings {
     if (defaultFileName != null) return defaultFileName;
 
     return dirName;
+  }
+
+  /// Get the output directory path for the generated index file
+  String getOutputDirectoryPath() {
+    return outputPath ?? directoryPath;
   }
 
   factory LibrarySettings.fromJson(Map map) => _$LibrarySettingsFromJson(map);

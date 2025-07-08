@@ -33,8 +33,9 @@ class IndexGenerator {
     PackageSettings package,
     LibrarySettings index,
   ) {
+    final outputDirectoryPath = index.getOutputDirectoryPath();
     final indexPath = path.join(
-      index.directoryPath,
+      outputDirectoryPath,
       '${index.resolveFileName(pubspec.name, package.defaultFileName)}.dart',
     );
     return IndexGenerator._(
@@ -76,7 +77,8 @@ class IndexGenerator {
     return files.where((file) {
       final filePath = getRelativeUnixPath(file);
 
-      final isIncluded = include.isEmpty || include.any((f) => f.matches(filePath));
+      final isIncluded =
+          include.isEmpty || include.any((f) => f.matches(filePath));
       if (!isIncluded) return false;
 
       final isExcluded = exclude.any((f) => f.matches(filePath));
@@ -118,7 +120,8 @@ class IndexGenerator {
 
     final internalFiles = findFiles();
     final internalFilteredFiles = filterFiles(internalFiles);
-    final internalExports = fileToExport(internalFilteredFiles).toList()..sort();
+    final internalExports = fileToExport(internalFilteredFiles).toList()
+      ..sort();
 
     final name = library.name;
     return [

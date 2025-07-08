@@ -1,10 +1,11 @@
 /// Automatically generate index / barrel / library files
 /// with all the export needed for your library.
-library index_generator;
+library;
 
-export 'src/builder.dart';
-export 'src/converters.dart';
-export 'src/dart_code/dart_export.dart';
-export 'src/index_generator.dart';
-export 'src/settings/library_settings.dart';
-export 'src/settings/package_settings.dart';
+export 'package:index_generator/src/builder.dart';
+export 'package:index_generator/src/converters.dart';
+export 'package:index_generator/src/dart_code/dart_export.dart';
+export 'package:index_generator/src/index_generator.dart';
+export 'package:index_generator/src/settings/dart.dart';
+export 'package:index_generator/src/settings/library_settings.dart';
+export 'package:index_generator/src/settings/package_settings.dart';

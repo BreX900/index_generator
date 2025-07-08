@@ -49,8 +49,8 @@ index_generator:
   exclude:
     - "**.g.dart"
     - "{_,**/_}*.dart"
-  indexes:
-    - path: lib
+  libraries:
+    - directory_path: lib
       disclaimer: false
       docs: |
         Automatically generate index / barrel / library files

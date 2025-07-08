@@ -89,7 +89,11 @@ class IndexGenerator {
     return files.map((file) {
       final filePath = getRelativeUnixPath(file);
 
-      return "export '$filePath';";
+      if (library.usePackageExports) {
+        return "export 'package:${pubspec.name}/$filePath';";
+      } else {
+        return "export '$filePath';";
+      }
     });
   }
 

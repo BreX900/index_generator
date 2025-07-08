@@ -67,9 +67,13 @@ index_generator:
       name: index_generator
       # Use package-style exports for internal files (e.g., 'package:app/main.dart' instead of 'main.dart')
       use_package_exports: true
+      # Custom output path for the generated index file (optional)
+      # If not specified, the file will be created in the directory_path
+      output_path: lib/generated
 ```
 
 - **directory_path**: Path in which to create the index file. All filters will get the relative path from this directory
+- **output_path**: Custom output path for the generated index file. If not specified, the file will be created in the directory_path
 - **file_name**: Prioritize ownership in folders, otherwise it will use the one defined in the generator with `default_file_name` key.
   If it is missing, if the folder is `lib` it will use the package name otherwise the folder name
 - **name**: The name of the library used in the index dart file by the `library` keyword
@@ -87,9 +91,11 @@ index_generator:
 `--help` command output:
 
 ```
--s, --settings=<Define a yaml file path.>    If not present use the "index_generator.yaml" file if it exists otherwise use the "pubspec.yaml" file.
--v, --[no-]verbose                           Print verbose logs
+
+-s, --settings=<Define a yaml file path.> If not present use the "index_generator.yaml" file if it exists otherwise use the "pubspec.yaml" file.
+-v, --[no-]verbose Print verbose logs
 -h, --help
+
 ```
 
 ## Build runner

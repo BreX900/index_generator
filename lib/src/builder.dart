@@ -2,17 +2,11 @@
 import 'dart:io';
 
 import 'package:build/build.dart';
-import 'package:glob/glob.dart';
-import 'package:path/path.dart' as p;
-import 'package:index_generator/src/settings/library_settings.dart';
-import 'package:index_generator/src/settings/package_settings.dart';
-import 'package:index_generator/src/index_generator.dart';
-import 'package:yaml/yaml.dart';
 import 'package:checked_yaml/checked_yaml.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:args/args.dart';
-import 'package:console/console.dart';
+import 'package:index_generator/src/index_generator.dart';
 import 'package:index_generator/src/settings/dart.dart';
+import 'package:index_generator/src/settings/package_settings.dart';
 
 Builder indexGeneratorBuilder(BuilderOptions options) {
   final toolBox = ToolBoxSync(name: 'index_generator');
@@ -52,10 +46,10 @@ class IndexGeneratorBuilder implements Builder {
       lineEnding: package.lineBreak,
       pageWidth: package.pageWidth,
     );
-    for (var generator in generators) {
+    for (final generator in generators) {
       final content = formatter.format(generator.generate().join(package.lineBreak));
       final output = _createFileOutput(buildStep, generator.indexFile.path);
-      buildStep.writeAsString(output, content);
+      await buildStep.writeAsString(output, content);
     }
   }
 }
@@ -84,7 +78,7 @@ class ToolBoxSync {
         sourceUrl: Uri.file(file.path),
       );
     } on ParsedYamlException catch (error) {
-      throw Exception(error.formattedMessage!);
+      throw Exception(error.formattedMessage);
     }
   }
 }

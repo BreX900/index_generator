@@ -69,7 +69,7 @@ class IndexGenerator {
     return unixFilePath;
   }
 
-  /// Filter [files] with [config] and [library] filters
+  /// Filter [files] with [package] and [library] filters
   Iterable<File> filterFiles(Iterable<File> files) {
     final include = [...package.include, ...library.include];
     final exclude = [...package.exclude, ...library.exclude];
@@ -77,8 +77,7 @@ class IndexGenerator {
     return files.where((file) {
       final filePath = getRelativeUnixPath(file);
 
-      final isIncluded =
-          include.isEmpty || include.any((f) => f.matches(filePath));
+      final isIncluded = include.isEmpty || include.any((f) => f.matches(filePath));
       if (!isIncluded) return false;
 
       final isExcluded = exclude.any((f) => f.matches(filePath));
@@ -120,8 +119,7 @@ class IndexGenerator {
 
     final internalFiles = findFiles();
     final internalFilteredFiles = filterFiles(internalFiles);
-    final internalExports = fileToExport(internalFilteredFiles).toList()
-      ..sort();
+    final internalExports = fileToExport(internalFilteredFiles).toList()..sort();
 
     final name = library.name;
     return [

@@ -108,6 +108,16 @@ dev_dependencies:
   index_generator: ^3.5.0
 ```
 
+and enable it in `build.yaml` file
+
+```yaml
+targets:
+  $default:
+    builders:
+      index_generator:
+        enabled: true
+```
+
 To generate use `<dart|flutter> pub run build_runner <build|watch>`
 
 ## Features and bugs

@@ -4,6 +4,6 @@ library;
 
 export 'package:args/args.dart' show ArgResults;
 export 'package:path/path.dart'
-    hide isRootRelative, basenameWithoutExtension, canonicalize, withoutExtension;
+    hide basenameWithoutExtension, canonicalize, isRootRelative, withoutExtension;
 
 export 'src/pick.dart';

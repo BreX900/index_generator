@@ -1,14 +1,13 @@
 targets:
   $default:
-    auto_apply_builders: false
     builders:
-      json_serializable:
-        enabled: false
+      source_gen:combining_builder:
         options:
-          # Options configure how source code is generated for every
-          # `@JsonSerializable`-annotated class in the package.
-          #
-          # The default value for each is listed.
+          ignore_for_file:
+            - cast_nullable_to_non_nullable
+
+      json_serializable:
+        options:
           any_map: true
           checked: true
           create_factory: true
@@ -19,14 +18,14 @@ targets:
           generic_argument_factories: false
           ignore_unannotated: false
           include_if_null: true
+
       index_generator:
-        enabled: true
+        enabled: false
 
 builders:
   index_generator:
     import: "package:index_generator/src/builder.dart"
     builder_factories: ["indexGeneratorBuilder"]
     build_extensions: { '$package$': ['.dart'] }
-    auto_apply: root_package
+    auto_apply: none
     build_to: source
-    required_inputs: ['.gen.dart']

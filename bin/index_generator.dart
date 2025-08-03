@@ -1,10 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:checked_yaml/checked_yaml.dart';
 import 'package:console/console.dart';
 import 'package:index_generator/index_generator.dart';
-import 'package:index_generator/src/settings/dart.dart';
 
 final argsParser = ArgParser()
   ..addOption(
@@ -14,8 +15,8 @@ final argsParser = ArgParser()
     help:
         'If not present use the "index_generator.yaml" file if it exists otherwise use the "pubspec.yaml" file.',
   )
-  ..addFlag('verbose', abbr: 'v', defaultsTo: false, help: 'Print verbose logs')
-  ..addFlag('help', abbr: 'h', defaultsTo: false, negatable: false);
+  ..addFlag('verbose', abbr: 'v', help: 'Print verbose logs')
+  ..addFlag('help', abbr: 'h', negatable: false);
 
 final toolBox = ToolBox(name: 'index_generator');
 
@@ -70,7 +71,7 @@ class ToolBox {
   Future<File> findYaml(String? path) async {
     if (path != null) return File(path);
 
-    if (await packageYaml.exists()) return packageYaml;
+    if (packageYaml.existsSync()) return packageYaml;
 
     return projectYaml;
   }
@@ -85,7 +86,7 @@ class ToolBox {
   }
 
   static Future<T?> tryLoadYaml<T>(File file, T Function(Map map) from) async {
-    if (!await file.exists()) return null;
+    if (!file.existsSync()) return null;
     try {
       return checkedYamlDecode(
         await file.readAsString(),
@@ -128,12 +129,6 @@ class Print {
 
   static void workInfo(Object message) {
     Console.setTextColor(Color.GREEN.id);
-    Console.write('$message\n');
-    Console.resetTextColor();
-  }
-
-  static void spaceInfo(Object message) {
-    Console.setTextColor(Color.DARK_BLUE.id);
     Console.write('$message\n');
     Console.resetTextColor();
   }

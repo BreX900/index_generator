@@ -1,5 +1,5 @@
 import 'package:glob/glob.dart';
-import 'package:index_generator/index_generator.dart';
+import 'package:index_generator/src/converters.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mek_data_class/mek_data_class.dart';
 import 'package:path/path.dart' as p;

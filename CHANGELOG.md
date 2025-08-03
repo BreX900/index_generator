@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 4.1.0
+- feat: Enabled package-style imports by `use_package_support` key
+- feat: Allows setting a custom directory for the generated index file by `output_path` key
+- feat: Added support to `build_runner` package, but you must enable it. Required minimum `build` package to `^3.0.0`
+- feat: Added option to remove library name by `include_library` key
+- fix: sort export entries on `show` and `hide` keywords
+
 ## 4.0.1
 - docs: updated documentation
 

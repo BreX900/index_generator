@@ -1,4 +1,4 @@
-include: package:lints/recommended.yaml
+include: package:mek_lints/dart.yaml
 
 # https://dart-lang.github.io/linter/lints/
 # linter:

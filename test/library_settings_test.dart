@@ -3,13 +3,13 @@ import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
 void main() {
-  final projectName = 'project_name';
-  final defaultFileName = 'default_file_name';
+  const projectName = 'project_name';
+  const defaultFileName = 'default_file_name';
 
   group('LibrarySettings', () {
     group('resolveFileName', () {
       test('If fileName exist returns it', () {
-        final settings = LibrarySettings(
+        const settings = LibrarySettings(
           directoryPath: '',
           fileName: 'file_name',
         );
@@ -20,9 +20,8 @@ void main() {
       });
 
       test('If fileName not exist and dirPath is lib returns projectName', () {
-        final settings = LibrarySettings(
+        const settings = LibrarySettings(
           directoryPath: 'lib',
-          fileName: null,
         );
 
         final actual = settings.resolveFileName(projectName, defaultFileName);
@@ -31,9 +30,8 @@ void main() {
       });
 
       test('If fileName not exist and dirPath is not lib returns defaultFileName', () {
-        final settings = LibrarySettings(
+        const settings = LibrarySettings(
           directoryPath: 'random',
-          fileName: null,
         );
 
         final actual = settings.resolveFileName(projectName, defaultFileName);
@@ -42,9 +40,8 @@ void main() {
       });
 
       test('If fileName, defaultFileName not exist and dirPath is not lib returns dir name', () {
-        final settings = LibrarySettings(
+        const settings = LibrarySettings(
           directoryPath: 'dir_name',
-          fileName: null,
         );
 
         final actual = settings.resolveFileName(projectName, null);
@@ -55,7 +52,7 @@ void main() {
 
     group('includeLibrary', () {
       test('defaults to true', () {
-        final settings = LibrarySettings(
+        const settings = LibrarySettings(
           directoryPath: 'lib',
         );
 
@@ -63,7 +60,7 @@ void main() {
       });
 
       test('can be set to false', () {
-        final settings = LibrarySettings(
+        const settings = LibrarySettings(
           directoryPath: 'lib',
           includeLibrary: false,
         );

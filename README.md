@@ -104,8 +104,8 @@ index_generator:
 
 ```yaml
 dev_dependencies:
-  build_runner: ^2.3.3
-  index_generator: ^3.5.0
+  build_runner: ^2.10.0
+  index_generator: ^4.1.0
 ```
 
 and enable it in `build.yaml` file

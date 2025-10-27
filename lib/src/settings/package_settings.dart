@@ -2,14 +2,12 @@ import 'package:glob/glob.dart';
 import 'package:index_generator/src/converters.dart';
 import 'package:index_generator/src/settings/library_settings.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mek_data_class/mek_data_class.dart';
 
 part 'package_settings.g.dart';
 
-@DataClass()
 @JsonSerializable()
 @GlobJsonConverter()
-class PackageSettings with _$PackageSettings {
+class PackageSettings {
   final String lineBreak;
   final int? pageWidth;
   final String? defaultFileName;
@@ -31,9 +29,8 @@ class PackageSettings with _$PackageSettings {
   factory PackageSettings.fromJson(Map map) => _$PackageSettingsFromJson(map);
 }
 
-@DataClass()
 @JsonSerializable(disallowUnrecognizedKeys: false)
-class GeneralSettings with _$GeneralSettings {
+class GeneralSettings {
   final PackageSettings indexGenerator;
 
   const GeneralSettings({required this.indexGenerator});

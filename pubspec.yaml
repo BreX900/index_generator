@@ -1,6 +1,6 @@
 name: index_generator
 description: Automatically generate index / barrel / library files with all the export needed for your library.
-version: 4.1.0
+version: 4.1.2
 homepage: https://github.com/BreX900/index_generator
 topics:
   - library
@@ -28,8 +28,7 @@ dependencies:
 
   yaml: ^3.1.1
   checked_yaml: ^2.0.1
-  mek_data_class: ^1.0.1
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
   glob: ^2.1.0
   collection: ^1.16.0
 
@@ -42,9 +41,8 @@ dev_dependencies:
 
   test: ^1.21.6
 
-  build_runner: ^2.6.0
-  mek_data_class_generator: ^3.0.0
-  json_serializable: ^6.10.0
+  build_runner: ^2.10.1
+  json_serializable: ^6.11.1
 
 executables:
   index_generator:

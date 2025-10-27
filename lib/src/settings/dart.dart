@@ -1,12 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mek_data_class/mek_data_class.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 part 'dart.g.dart';
 
-@DataClass()
 @JsonSerializable(disallowUnrecognizedKeys: false)
-class Pubspec with _$Pubspec {
+class Pubspec {
   final String name;
   final PubspecEnvironment environment;
 
@@ -15,9 +13,8 @@ class Pubspec with _$Pubspec {
   factory Pubspec.fromJson(Map<dynamic, dynamic> map) => _$PubspecFromJson(map);
 }
 
-@DataClass()
 @JsonSerializable(disallowUnrecognizedKeys: false)
-class PubspecEnvironment with _$PubspecEnvironment {
+class PubspecEnvironment {
   @JsonKey(fromJson: VersionConstraint.parse)
   final VersionConstraint sdk;
 
@@ -27,9 +24,8 @@ class PubspecEnvironment with _$PubspecEnvironment {
       _$PubspecEnvironmentFromJson(map);
 }
 
-@DataClass()
 @JsonSerializable(disallowUnrecognizedKeys: false)
-class AnalysisOptions with _$AnalysisOptions {
+class AnalysisOptions {
   final FormatterOptions formatter;
 
   const AnalysisOptions({this.formatter = const FormatterOptions()});
@@ -37,9 +33,8 @@ class AnalysisOptions with _$AnalysisOptions {
   factory AnalysisOptions.fromJson(Map<dynamic, dynamic> map) => _$AnalysisOptionsFromJson(map);
 }
 
-@DataClass()
 @JsonSerializable(disallowUnrecognizedKeys: false)
-class FormatterOptions with _$FormatterOptions {
+class FormatterOptions {
   final int pageWidth;
 
   const FormatterOptions({this.pageWidth = 80});

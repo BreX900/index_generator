@@ -1,15 +1,13 @@
 import 'package:glob/glob.dart';
 import 'package:index_generator/src/converters.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mek_data_class/mek_data_class.dart';
 import 'package:path/path.dart' as p;
 
 part 'library_settings.g.dart';
 
-@DataClass()
 @JsonSerializable()
 @GlobJsonConverter()
-class LibrarySettings with _$LibrarySettings {
+class LibrarySettings {
   /// Folder path to create a index file
   final String directoryPath;
 
@@ -82,9 +80,8 @@ class LibrarySettings with _$LibrarySettings {
   factory LibrarySettings.fromJson(Map map) => _$LibrarySettingsFromJson(map);
 }
 
-@DataClass()
 @JsonSerializable()
-class ExportSettings with _$ExportSettings {
+class ExportSettings {
   /// Package name without dart extension
   final String package;
 

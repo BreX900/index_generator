@@ -1,5 +1,10 @@
 # CHANGELOG
 
+
+## 4.1.2
+- build: bumped `build` dependency to `^4.0.0`
+- build: removed `mek_data_class` dependency
+
 ## 4.1.0
 - feat: Enabled package-style imports by `use_package_support` key
 - feat: Allows setting a custom directory for the generated index file by `output_path` key
